@@ -1,5 +1,7 @@
 package com.project25.Models;
 
+import com.project25.Exceptions.ValidationException;
+
 public class Validation {
 
 
@@ -39,6 +41,6 @@ public class Validation {
 
     // Method to validate password format using regex
     private static boolean isValidPassword(String password) {
-        return password.matches("^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[@#$%^&+=!])(?=\\S+$).{8,}$");
+        return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$");
     }
 }

@@ -1,5 +1,8 @@
 package com.project25;
 
+import com.project25.Exceptions.PasswordNotEqualException;
+import com.project25.Exceptions.UsernameTakenException;
+import com.project25.Exceptions.ValidationException;
 import com.project25.Models.UserService;
 
 import java.util.Scanner;
@@ -7,56 +10,66 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         register();
-
     }
 
     private static void register() {
         Scanner input = new Scanner(System.in);
+
         boolean isValid = false;
-        boolean passMatch = false;
+        boolean emailValidated = false;
+        boolean usernameValidated = false;
+
+        String email;
+        String username;
+        String password;
+        String password2;
+
         UserService userService = new UserService();
         System.out.println("Welcome to the sign-up page");
 
 
         while (!isValid) {
             try {
-                System.out.println("Please enter your email (alphanumeric characters and .@-):");
-                System.out.print("Email: ");
-                String email = input.nextLine();
-                userService.emailInput(email);
+                if (!emailValidated) {
+                    System.out.println("Please enter your email (alphanumeric characters and .@-):");
+                    System.out.print("Email: ");
+                    email = input.nextLine();
+                    userService.emailInput(email);
+                    emailValidated = true;
+                }
 
 
-                String username;
-                System.out.println("Now enter your desired username (alphanumeric characters and underscores):");
-                System.out.print("Username: ");
-                username = input.nextLine();
-                userService.usernameInput(username);
+                if (!usernameValidated) {
+                    System.out.println("Enter your desired username (alphanumeric characters and underscores):");
+                    System.out.print("Username: ");
+                    username = input.nextLine();
+                    userService.usernameInput(username);
+                    usernameValidated = true;
+                }
 
-
-                System.out.println("Now create your password (must contain at least one uppercase letter, lowercase letter, number, and special character):");
-
-
+                //no if statement because when password is true and matches method is over
+                System.out.println("Create your password (must contain at least one uppercase letter, lowercase letter, number, and special character):");
                 System.out.print("Password: ");
-                String password = input.nextLine();
+                password = input.nextLine();
                 userService.passwordInput(password);
-
-
                 System.out.print("Re-enter the password: ");
-                String password2 = input.nextLine();
-
+                password2 = input.nextLine();
                 if (!password.equals(password2)) {
-                        System.out.println("Passwords don't match. Please try again.");
-                    } else {
-                        passMatch = true;
-                        isValid = true;
-                        System.out.println("Registration successful!");
-                    }
-                } catch (Exception e) {
-                e.printStackTrace();
+                    throw new PasswordNotEqualException("Passwords do not match, try again.");
+                }
+
+
+                userService.register();
+                System.out.println("Registration Successful");
+                isValid = true;
+
+            } catch (ValidationException | UsernameTakenException | PasswordNotEqualException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
         input.close();
     }
-
 }
 

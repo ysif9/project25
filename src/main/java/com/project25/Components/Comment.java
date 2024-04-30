@@ -1,14 +1,14 @@
-package com.project25.Models;
+package com.project25.Components;
 
 import java.time.LocalDate;
 
 public class Comment extends Interactions{
-protected String content;
+private String content;
 
 
 
-    public Comment(int id, LocalDate creationTime, String content) {
-        super(id, creationTime);
+    public Comment(int id, LocalDate creationTime, User owner,  String content) {
+        super(id, creationTime, owner);
         this.content = content;
     }
 

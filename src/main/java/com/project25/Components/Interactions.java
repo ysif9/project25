@@ -1,17 +1,19 @@
-package com.project25.Models;
+package com.project25.Components;
 
 import java.time.LocalDate;
 
 public abstract class Interactions {
     private int id;
     private LocalDate creationTime;
+    private User owner;
     
     public Interactions() {
     }
 
-    public Interactions(int id, LocalDate creationTime) {
+    public Interactions(int id, LocalDate creationTime, User owner) {
         this.id = id;
         this.creationTime = creationTime;
+        this.owner = owner;
     }
 
     public int getId() {
@@ -30,5 +32,9 @@ public abstract class Interactions {
     public void setCreationTime(LocalDate creationTime) {
 
         this.creationTime = creationTime;
+    }
+
+    public User getOwner() {
+        return owner;
     }
 }

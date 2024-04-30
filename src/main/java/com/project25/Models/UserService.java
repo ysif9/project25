@@ -1,10 +1,11 @@
 package com.project25.Models;
 
+import com.project25.Exceptions.UsernameTakenException;
+import com.project25.Exceptions.ValidationException;
+
 import java.sql.SQLException;
 
 public class UserService {
-    boolean isValid = false;
-    boolean passMatch = false;
     private String username;
     private String email;
     private String password;
@@ -36,10 +37,16 @@ public class UserService {
 
     }
 
-    public void register() {
+    public void register()  throws SQLException{
         db.setUsername(username);
         db.setPassword(password);
         db.setEmail(email);
+        try {
+            db.importUserData();
+        } catch (SQLException e) {
+            throw new SQLException("Database error: " + e.getMessage());
+        }
+        db.closeConnection();
     }
 
 }

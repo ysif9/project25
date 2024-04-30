@@ -1,4 +1,6 @@
 package com.project25.Models;
+import com.project25.Exceptions.UsernameTakenException;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -73,13 +75,13 @@ public class DatabaseDriver {
             }
 
 
-    public void isUsernameTaken(String username) throws UsernameTakenException{
+    public void isUsernameTaken(String username) throws UsernameTakenException {
         try (PreparedStatement pstmt = connection.prepareStatement(CHECK_USERNAME_SQL)) {
             pstmt.setString(1, username);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    throw new UsernameTakenException("Username is taken");
-                }; // If there's a result, username is taken
+                    throw new UsernameTakenException("Username is taken, try again");
+                } // If there's a result, username is taken
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error checking username: " + e.getMessage(), e);
