@@ -20,7 +20,6 @@ public class Validation {
                 break;
             case "password":
                 if (!isValidPassword(input)) {
-                    System.out.println(input);
                     throw new ValidationException("Invalid password format. Password must be at least 8 characters and contain a lowercase letter, uppercase letter, number, and special character.");
                 }
                 break;
