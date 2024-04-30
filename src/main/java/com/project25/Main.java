@@ -9,12 +9,61 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        register();
+        Scanner input = new Scanner(System.in);
+        boolean correctInputFlag = false;
+
+            System.out.println("""
+                    Do you want to register or login?
+                    1 : Register
+                    2 : Login""");
+        while (!correctInputFlag) {
+            int choice = input.nextInt();
+            if (choice == 1) {
+                correctInputFlag = true;
+                register(input);
+            } else if (choice == 2) {
+                correctInputFlag = true;
+                login(input);
+            } else {
+                System.out.println("Invalid choice, try again: ");
+            }
+        }
     }
 
-    private static void register() {
-        Scanner input = new Scanner(System.in);
+    private static void login( Scanner input) {
+        input.nextLine();
+        System.out.println("Welcome to the login page!");
+        boolean loginSuccessful = false;
+        UserService userService = new UserService();
+        while (!loginSuccessful) {
+            try {
+                System.out.print("Username: ");
+                String username = input.nextLine();
 
+                System.out.print("Password: ");
+                String password = input.nextLine();
+
+                if (username.isEmpty() || password.isEmpty()) {
+                    System.out.println("Username or password cannot be empty. Please try again.");
+                    continue;
+                }
+
+
+                userService.login(username, password);
+                System.out.println("Login successful!");
+                loginSuccessful = true;
+
+            } catch (ValidationException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                throw new RuntimeException();
+            }
+        }
+        input.close();
+    }
+
+    private static void register(Scanner input) {
+        input.nextLine();
         boolean isValid = false;
         boolean emailValidated = false;
         boolean usernameValidated = false;

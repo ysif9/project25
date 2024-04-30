@@ -17,6 +17,7 @@ public class DatabaseDriver {
                 ")";
         private static final String INSERT_USER_SQL = "INSERT INTO users (Email, Username, HashedPass) VALUES (?, ?, ?)";
         private static final String CHECK_USERNAME_SQL = "SELECT Username FROM users WHERE Username = ?";
+        private static final String SELECT_USER_SQL = "SELECT * FROM users WHERE Username = ? AND HashedPass = ?";
         private String email; // User email
         private String username; // Username
         private String password; // Password
@@ -54,15 +55,27 @@ public class DatabaseDriver {
             addUser(); // Add user to the database
         }
 
+        public boolean fetchUserData() throws SQLException {
+            ResultSet resultSet = getUser();
+            return resultSet.isBeforeFirst();
+
+        }
+
+        private ResultSet getUser() throws SQLException {
+            PreparedStatement pstmt = connection.prepareStatement(SELECT_USER_SQL);
+            pstmt.setString(1, username);
+            pstmt.setString(2, hashPassword(password));
+            return pstmt.executeQuery();
+        }
+
         // Method to add user to the database
         private void addUser() throws SQLException {
             String hashedPassword = hashPassword(password); // Hash the password before storing
-            try (PreparedStatement pstmt = connection.prepareStatement(INSERT_USER_SQL)) {
-                pstmt.setString(1, email); // Set email parameter
-                pstmt.setString(2, username); // Set username parameter
-                pstmt.setString(3, hashedPassword); // Set hashed password parameter
-                pstmt.executeUpdate(); // Execute SQL to insert user into the database
-            }
+             PreparedStatement pstmt = connection.prepareStatement(INSERT_USER_SQL);
+             pstmt.setString(1, email); // Set email parameter
+             pstmt.setString(2, username); // Set username parameter
+             pstmt.setString(3, hashedPassword); // Set hashed password parameter
+             pstmt.executeUpdate(); // Execute SQL to insert user into the database
         }
 
         // Method to close the database connection
@@ -90,22 +103,21 @@ public class DatabaseDriver {
 
 
 
-
     private String hashPassword(String password) {
-        try{
+        try {
             final MessageDigest digest = MessageDigest.getInstance("SHA-256");
             final byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
             final StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
-                final String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1)
-                    hexString.append('0');
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
             return hexString.toString();
-        } catch (NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Error hashing password: " + e.getMessage(), e);
         }
     }
+
 
 }
