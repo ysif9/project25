@@ -20,3 +20,17 @@
     -fx-alignment: center;
 -fx-spacing: 100;
 }
+.Like_btn{
+    -fx-background-color: white;
+    -fx-border-color: -bg-color-deafult;
+-fx-text-fill: #1f77ea;
+
+}
+.Like_icon   {
+    -fx-fill: #1f77ea;
+    -fx-cell-size: 1.5em;
+}
+.disLike_icon   {
+    -fx-fill: #e54545;
+    -fx-cell-size: 1.5em;
+}
