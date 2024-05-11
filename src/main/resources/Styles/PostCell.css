@@ -1,0 +1,22 @@
+.Profile_container{
+    -fx-alignment: center_left;
+    -fx-border-radius: 5;
+    -fx-spacing: 10;
+    -fx-padding: 0 0 0 30;
+}
+.Profile_container Label{
+    -fx-alignment: center;
+-fx-font-size: 1.5em;
+    -fx-font-family: Calibri;
+}
+.profile_image{
+    -fx-pref-width: 50px;
+    -fx-pref-height: 50px;
+    -fx-clip-path: circle(50%);
+    -fx-background-color: white;
+    -fx-border-radius: 50%;
+}
+.Interactions_container{
+    -fx-alignment: center;
+-fx-spacing: 100;
+}
