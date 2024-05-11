@@ -13,7 +13,7 @@ public class Main {
         boolean correctInputFlag = false;
 
             System.out.println("""
-                    Do you want to register or login?
+                    Do you want to 1 or 2?
                     1 : Register
                     2 : Login""");
         while (!correctInputFlag) {
