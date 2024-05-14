@@ -1,19 +1,23 @@
 package com.project25.Components;
 
+import javafx.scene.image.Image;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Post {
     private int ID;
+    private Image postImage;
     private LocalDate creationTime;
     private String content;
     private User author;
     private final List<Comment> comments;
     private final List<Like> likes;
 
-    public Post(int ID, String content, User author, LocalDate creationTime) {
+    public Post(int ID, Image postImage, String content, User author, LocalDate creationTime) {
         this.ID = ID;
+        this.postImage = postImage;
         this.creationTime = creationTime;
         this.content = content;
         this.author = author;
@@ -67,6 +71,14 @@ public class Post {
 
     public void addLike(Like like) {
         likes.add(like);
+    }
+
+    public Image getPostImage() {
+        return postImage;
+    }
+
+    public void setPostImage(Image postImage) {
+        this.postImage = postImage;
     }
 
     @Override

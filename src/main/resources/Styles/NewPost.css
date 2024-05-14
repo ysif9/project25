@@ -1,0 +1,28 @@
+.container_main {
+    -fx-border-radius: 10;
+    -fx-border-color: -color-border-default;
+    -fx-background-radius: 10;
+    -fx-background-color: -color-bg-default;
+    -fx-effect: dropshadow(three-pass-box,#CCCCCC,6,0,0,5);
+}
+.container_main .chosen-button {
+    -fx-border-width: 0px;
+    -fx-background-color: transparent;
+    -fx-font-family : "Segoe UI";
+    -fx-font-size: 15;
+}
+.container_main .chosen-button:hover {
+    -fx-cursor: hand;
+    -fx-background-color: -color-bg-default;
+}
+
+.container_main HBox {
+    -fx-spacing: 15;
+}
+.container_main TextArea {
+    -fx-border-width: 0px;
+    -fx-background-color: transparent;
+    -fx-font-family: "Segoe UI Emoji";
+    -fx-font-size: 18;
+    -fx-padding: 40 0 0 0;
+}

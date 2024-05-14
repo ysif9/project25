@@ -1,23 +1,20 @@
 package com.project25.Controllers;
 
 import atlantafx.base.util.Animations;
+import com.project25.Components.Post;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import de.jensd.fx.glyphs.fontawesome.demo.FontAwesomeIconsDemoApp;
-import javafx.animation.Animation;
 
-import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 
 import java.net.URL;
-import java.time.Duration;
 import java.util.ResourceBundle;
 
 public class PostCellController implements Initializable {
@@ -29,31 +26,65 @@ public class PostCellController implements Initializable {
     public Button comment_btn;
     public ImageView post_image;
     public Label post_text_lbl;
+    public BorderPane post_cell_container;
+    public Label like_count_lbl;
+    public Label dislike_count_lbl;
+    public Label comment_count_lbl;
+    public VBox comment_section_container;
+    public TextArea comment_input_fld;
+    public Button comment_submit_btn;
+    public ScrollPane scrollpane;
+    public VBox comment_section;
+    public TitledPane comment_pane;
 
     //variables
     BooleanProperty likeClicked =new SimpleBooleanProperty(false);
     BooleanProperty dislikeClicked =new SimpleBooleanProperty(false);
     BooleanProperty commentClicked =new SimpleBooleanProperty(false);
 
+    //Objects
+    Post currentPost;
 
+
+    public PostCellController(Post post) {
+        currentPost = post;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        post_cell_container.setPrefHeight(650);
+        comment_pane.setCollapsible(true);
+        //comment button initialization 34an youseif needy
         FontAwesomeIconView comment_ico = new FontAwesomeIconView();
         comment_ico.setGlyphName("COMMENT");
         comment_ico.setSize("30");
         comment_btn.setGraphic(comment_ico);
+
+        //buttons reactions
         like_btn.setOnMouseClicked(this::likeBtnClicked);
         dislike_btn.setOnMouseClicked(this::dislikeBtnClicked);
-        comment_btn.setOnMouseClicked(this::commentBtnClicked);
+        comment_btn.setOnAction(e-> commentBtnClicked());
 
 
     }
 
 
+    // buttons reactions methods
+    private void commentBtnClicked() {
+        commentClicked.set(!commentClicked.getValue());
 
-    private void commentBtnClicked(MouseEvent mouseEvent) {
         //open comment window
+        if (commentClicked.getValue()){
+            post_cell_container.setPrefHeight(900);
+            comment_pane.setExpanded(true);
+
+        }
+        else {
+            post_cell_container.setPrefHeight(650);
+            comment_pane.setExpanded(false);
+
+        }
+
     }
 
     private void likeBtnClicked(MouseEvent event) {
@@ -92,4 +123,3 @@ public class PostCellController implements Initializable {
 
     }
 }
-

@@ -1,6 +1,7 @@
 package com.project25.Components;
 
-import java.time.LocalDate;
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,18 +11,18 @@ public class User {
     private String firstName;
     private String lastName;
     private String bio;
-    private String profilePictureURL;
+    private Image profilePicture;
     private final List<Post> posts;
     private final List<User> followers;
     private final List<User> following;
 
-    public User(int id, String username, String firstName, String lastName, String bio, String profilePictureURL) {
+    public User(int id, String username, String firstName, String lastName, String bio, Image profilePicture) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.bio = bio;
-        this.profilePictureURL = profilePictureURL;
+        this.profilePicture = profilePicture;
         this.posts = new ArrayList<>();
         this.followers = new ArrayList<>();
         this.following = new ArrayList<>();
@@ -67,20 +68,16 @@ public class User {
         this.bio = bio;
     }
 
-    public String getProfilePictureURL() {
-        return profilePictureURL;
+    public Image getProfilePicture() {
+        return profilePicture;
     }
 
-    public void setProfilePictureURL(String profilePictureURL) {
-        this.profilePictureURL = profilePictureURL;
+    public void setProfilePicture(Image profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public List<Post> getPosts() {
         return posts;
-    }
-
-    public void newPost(String caption) {
-       this.posts.add(new Post(posts.size(), caption, this, LocalDate.now()));
     }
 
     public List<User> getFollowers() {
@@ -109,7 +106,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", bio='" + bio + '\'' +
-                ", profilePictureURL='" + profilePictureURL + '\'' +
+                ", profilePictureURL='" + profilePicture + '\'' +
                 ", posts=" + posts +
                 ", followers=" + followers +
                 ", following=" + following +
