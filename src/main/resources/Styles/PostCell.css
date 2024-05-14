@@ -59,7 +59,18 @@
 }
 .post_container{
     -fx-border-radius: 10;
--fx-effect: dropshadow(three-pass-box,#CCCCCC,6,0,0,5);
+    -fx-effect: dropshadow(three-pass-box,#CCCCCC,6,0,0,5);
+    -fx-background-color: -color-bg-default;
+    -fx-background-radius: 10;
+}
+.comment_submit_container{
+    -fx-alignment: center;
+    -fx-spacing: 10;
+    -fx-border-radius: 100;
+}
+.comment_cells_container{
+    -fx-border-radius: 100;
+    -fx-background-color: #aaaaaa;
 }
 .comment_submit_container{
     -fx-alignment: center;

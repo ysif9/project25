@@ -1,11 +1,9 @@
 package com.project25.Controllers;
 
 import atlantafx.base.util.Animations;
+import com.project25.Components.Post;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import de.jensd.fx.glyphs.fontawesome.demo.FontAwesomeIconsDemoApp;
-import javafx.animation.Animation;
 
-import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.Initializable;
@@ -15,10 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 
 import java.net.URL;
-import java.time.Duration;
 import java.util.ResourceBundle;
 
 public class PostCellController implements Initializable {
@@ -46,7 +42,13 @@ public class PostCellController implements Initializable {
     BooleanProperty dislikeClicked =new SimpleBooleanProperty(false);
     BooleanProperty commentClicked =new SimpleBooleanProperty(false);
 
+    //Objects
+    Post currentPost;
 
+
+    public PostCellController(Post post) {
+        currentPost = post;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -120,9 +122,5 @@ public class PostCellController implements Initializable {
         }
 
     }
-
-
-
-
 }
 

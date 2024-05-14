@@ -19,27 +19,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.github.mkpaz</groupId>
-            <artifactId>atlantafx-base</artifactId>
-            <version>2.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>3.45.2.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.21</version>
-        </dependency>
-        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>21</version>
+            
         </dependency>
-
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
@@ -56,38 +40,146 @@
             <version>21</version>
         </dependency>
         <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>tilesfx</artifactId>
+            <version>11.48</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
             <groupId>de.jensd</groupId>
             <artifactId>fontawesomefx-fontawesome</artifactId>
             <version>4.7.0-9.1.2</version> <!-- Or the latest version -->
         </dependency>
 
+
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-feather-pack</artifactId>
+            <version>12.3.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-material2-pack -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-material2-pack</artifactId>
+            <version>12.3.1</version>
+        </dependency>
+
+
+
+            <dependency>
+                <groupId>org.kordamp.ikonli</groupId>
+                <artifactId>ikonli-swing</artifactId>
+                <version>12.3.1</version>
+            </dependency>
+
+
+
+
+
+
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.45.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.21</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.gluonhq/charm-down-core -->
+        <dependency>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>charm-down-core</artifactId>
+            <version>3.8.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.mkpaz</groupId>
+            <artifactId>atlantafx-base</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.1.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-javafx -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>12.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>charm-glisten</artifactId>
+            <version>6.2.3</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>charm-glisten</id>
+            <name>charm-glisten Repository</name>
+            <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
+
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.3</version>
+    <plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.3</version>
+        <configuration>
+            <!-- put your configurations here -->
+        </configuration>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>shade</goal>
+                </goals>
                 <configuration>
-                    <!-- put your configurations here -->
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <transformers>
+                        <transformer implementation=
+                                             "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>com.timemanagement.Main</mainClass>
+                        </transformer>
+                    </transformers>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <transformers>
-                                <transformer implementation=
-                                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.timemanagement.Main</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+            </execution>
+        </executions>
+    </plugin>
+    </plugins>
+</build>
 </project>

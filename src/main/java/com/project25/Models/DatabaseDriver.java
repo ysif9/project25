@@ -22,6 +22,7 @@ public class DatabaseDriver {
         private String username; // Username
         private String password; // Password
 
+
         // Constructor to establish database connection
         public DatabaseDriver() throws SQLException {
             connection = DriverManager.getConnection(DB_URL); // Attempt to establish a connection to the database

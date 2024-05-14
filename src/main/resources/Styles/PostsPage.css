@@ -1,0 +1,34 @@
+.main_container {
+    -fx-padding: 5;
+    -fx-spacing: 20;
+    -fx-background-color: -color-neutral-subtle;
+}
+
+/* needs some styling */
+.tool_bar {
+    -fx-background-color: -color-bg-default;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, #CCCCCC, 6, 0, 0, 5);
+    -fx-spacing: 10;
+}
+
+.tool_bar Button {
+    -fx-background-color: transparent;
+}
+
+.tool_bar MenuButton {
+    -fx-background-color: transparent;
+}
+
+.tool_bar Button:hover {
+    -fx-background-color: -color-neutral-subtle;
+}
+
+.tool_bar MenuButton:hover {
+    -fx-background-color: -color-neutral-subtle;
+}
+
+.side_container {
+    -fx-background-color: -color-neutral-subtle;
+
+}
