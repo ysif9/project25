@@ -53,3 +53,7 @@
     -fx-cursor: hand;
     -fx-fill: #1f77ea;
 }
+.post_container{
+    -fx-border-radius: 10;
+-fx-effect: dropshadow(three-pass-box,#CCCCCC,6,0,0,5);
+}
