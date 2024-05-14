@@ -14,6 +14,7 @@ public class Post {
     private User author;
     private final List<Comment> comments;
     private final List<Like> likes;
+    private final List<Dislike> dislikes;
 
     public Post(int ID, Image postImage, String content, User author, LocalDate creationTime) {
         this.ID = ID;
@@ -23,6 +24,7 @@ public class Post {
         this.author = author;
         this.comments = new ArrayList<>();
         this.likes = new ArrayList<>();
+        this.dislikes = new ArrayList<>();
     }
 
     public int getID() {
@@ -72,7 +74,9 @@ public class Post {
     public void addLike(Like like) {
         likes.add(like);
     }
-
+    public void removeLike(Like like) {
+        likes.remove(like);
+    }
     public Image getPostImage() {
         return postImage;
     }
@@ -80,7 +84,16 @@ public class Post {
     public void setPostImage(Image postImage) {
         this.postImage = postImage;
     }
+    public List<Dislike> getDislikes() {
+        return dislikes;
+    }
 
+    public void addDisLike(Dislike dislike) {
+        dislikes.add(dislike);
+    }
+    public void removeDisLike(Dislike dislike) {
+        dislikes.remove(dislike);
+    }
     @Override
     public String toString() {
         return "Post{" +

@@ -1,11 +1,15 @@
 package com.project25.Controllers;
 
 import atlantafx.base.util.Animations;
+import com.project25.Components.Like;
 import com.project25.Components.Post;
+import com.project25.Components.User;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -15,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class PostCellController implements Initializable {
@@ -41,7 +46,7 @@ public class PostCellController implements Initializable {
     BooleanProperty likeClicked =new SimpleBooleanProperty(false);
     BooleanProperty dislikeClicked =new SimpleBooleanProperty(false);
     BooleanProperty commentClicked =new SimpleBooleanProperty(false);
-
+    IntegerProperty likeId = new SimpleIntegerProperty(1);
     //Objects
     Post currentPost;
 
@@ -52,8 +57,16 @@ public class PostCellController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //post initialization
         post_cell_container.setPrefHeight(650);
-        comment_pane.setCollapsible(true);
+        profile_picture.setImage(currentPost.getAuthor().getProfilePicture());
+        user_name_lbl.setText(currentPost.getAuthor().getUsername());
+        post_image.setImage(currentPost.getPostImage());
+        post_text_lbl.setText(currentPost.getContent());
+        like_count_lbl.setText(String.valueOf(currentPost.getLikes().size()));
+        dislike_count_lbl.setText(String.valueOf(currentPost.getDislikes().size()));
+        comment_count_lbl.setText(String.valueOf(currentPost.getComments().size()));
         //comment button initialization 34an youseif needy
         FontAwesomeIconView comment_ico = new FontAwesomeIconView();
         comment_ico.setGlyphName("COMMENT");
@@ -77,12 +90,10 @@ public class PostCellController implements Initializable {
         if (commentClicked.getValue()){
             post_cell_container.setPrefHeight(900);
             comment_pane.setExpanded(true);
-
         }
         else {
             post_cell_container.setPrefHeight(650);
             comment_pane.setExpanded(false);
-
         }
 
     }
@@ -91,20 +102,24 @@ public class PostCellController implements Initializable {
         var likePulse =  Animations.pulse(like_btn, 2);
         likePulse.setRate(2.5);
         likeClicked.set(!likeClicked.getValue());
-
+        Like like =new Like(likeId.getValue(), LocalDate.now(), null);
         if(likeClicked.getValue()){
             this.like_btn.setGlyphName("HEART");
             this.like_btn.setFill(new Color(0.85, 0.06, 0.27, 1));
             likePulse.playFromStart();
             //addLike method in model
+        currentPost.addLike(like);
+        likeId.setValue(likeId.getValue() + 1);
 
         }
         else {
             this.like_btn.setGlyphName("HEART_ALT");
             this.like_btn.setFill(new Color(0, 0, 0, 1));
             //removeLike method in model
+            currentPost.removeLike(like);
+            likeId.setValue(likeId.getValue() - 1);
         }
-
+        like_count_lbl.setText(String.valueOf(currentPost.getLikes().size()));
     }
 
     private void dislikeBtnClicked(MouseEvent event) {

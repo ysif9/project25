@@ -23,7 +23,7 @@
       </HBox>
    </top>
    <bottom>
-      <TitledPane fx:id="comment_pane" collapsible="false" expanded="false" textFill="#f2f2f2">
+      <TitledPane fx:id="comment_pane"  expanded="false" textFill="#f2f2f2">
          <VBox prefHeight="270.0" prefWidth="600.0">
             <VBox fx:id="comment_section">
                <ScrollPane fx:id="scrollpane" prefHeight="200.0" prefWidth="200.0" styleClass="comment_cells_container">
