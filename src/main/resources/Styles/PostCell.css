@@ -6,47 +6,50 @@
 }
 .Profile_container Label{
     -fx-alignment: center;
--fx-font-size: 1.5em;
+    -fx-font-size: 1.5em;
     -fx-font-family: Calibri;
 }
 .profile_image{
     -fx-pref-width: 50px;
     -fx-pref-height: 50px;
-    -fx-clip-path: circle(50%);
+
     -fx-background-color: white;
     -fx-border-radius: 50%;
 }
 .Interactions_container{
     -fx-alignment: center;
--fx-spacing: 100;
+    -fx-spacing: 32;
 }
-.Like_btn {
-    -fx-background-color: white;
-    -fx-border-color: -bg-color-deafult;
--fx-text-fill: #1f77ea;
+.Like_container {
+    -fx-spacing: 18;
+    -fx-alignment: center;
+}
+.Like_container Label{
+    -fx-font-size: 1.2em;
+    -fx-font-weight: 700;
+}
+.Body_container{
+    -fx-padding: 15;
+    -fx-spacing: 15;
+}
+.Body_container ImageView{
+    -fx-alignment: center;
 
 }
-.Like_btn FontAwesomeIconView   {
-    -fx-fill: #1f77ea;
-    -fx-cell-size: 1.5em;
+.Body_container Label{
+    -fx-font-family: "Calibri";
+    -fx-font-size: 1.2em;
+    -fx-font-weight: 600;
 }
-.disLike_btn FontAwesomeIconView   {
-    -fx-fill: #e54545;
-    -fx-cell-size: 1.5em;
-}
-.disLike_btn{
-    -fx-background-color: white;
-    -fx-border-color: -bg-color-deafult;
-    -fx-text-fill: #e54545;
+.comment {
+    -fx-background-color: transparent;
 
 }
-.comment_btn {
-    -fx-background-color: white;
-    -fx-border-color: -bg-color-deafult;
-    -fx-text-fill: #555555;
-
-}
-.comment_btn FontAwesomeIconView   {
+.comment FontAwesomeIconView:hover{
+    -fx-cursor: hand;
     -fx-fill: #AAAAAA;
-    -fx-cell-size: 1.5em;
+}
+.dislike:hover{
+    -fx-cursor: hand;
+    -fx-fill: #1f77ea;
 }
