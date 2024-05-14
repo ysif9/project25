@@ -4,13 +4,16 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="600.0" styleClass="post_container" stylesheets="@../Styles/PostCell.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="post_cell_container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="600.0" styleClass="post_container" stylesheets="@../Styles/PostCell.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project25.Controllers.PostCellController">
    <top>
       <HBox prefHeight="75.0" prefWidth="600.0" styleClass="Profile_container" BorderPane.alignment="CENTER">
          <ImageView fx:id="profile_picture" fitHeight="60.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true" styleClass="profile_image">
@@ -20,20 +23,19 @@
       </HBox>
    </top>
    <bottom>
-      <HBox prefHeight="111.0" prefWidth="600.0" styleClass="Interactions_container">
-         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
-            <FontAwesomeIconView fx:id="like_btn" glyphName="HEART_ALT" size="30" />
-            <Label text="1000" />
-         </HBox>
-         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
-            <FontAwesomeIconView fx:id="dislike_btn" glyphName="THUMBS_DOWN" size="30" styleClass="dislike" />
-            <Label text="500" />
-         </HBox>
-         <HBox layoutX="326.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
-            <Button fx:id="comment_btn" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="comment" />
-            <Label text="30" />
-         </HBox>
-      </HBox>
+      <TitledPane fx:id="comment_pane" collapsible="false" expanded="false" textFill="#f2f2f2">
+         <VBox prefHeight="270.0" prefWidth="600.0">
+            <VBox fx:id="comment_section">
+               <ScrollPane fx:id="scrollpane" prefHeight="200.0" prefWidth="200.0" styleClass="comment_cells_container">
+                  <VBox fx:id="comment_section_container" prefHeight="200.0" prefWidth="562.0" />
+               </ScrollPane>
+               <HBox alignment="BOTTOM_LEFT" prefHeight="88.0" prefWidth="598.0" styleClass="comment_submit_container">
+                  <TextArea fx:id="comment_input_fld" prefHeight="88.0" prefWidth="484.0" />
+                  <Button fx:id="comment_submit_btn" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0" text="Submit" />
+               </HBox>
+            </VBox>
+         </VBox>
+      </TitledPane>
    </bottom>
    <center>
       <VBox styleClass="Body_container" BorderPane.alignment="CENTER">
@@ -44,6 +46,20 @@
             <Image url="@../Images/postimage.jpg" />
          </ImageView>
          <Label fx:id="post_text_lbl" prefHeight="73.0" prefWidth="492.0" text="Add the Text of the Post here " />
+         <HBox prefHeight="111.0" prefWidth="600.0" styleClass="Interactions_container">
+            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
+               <FontAwesomeIconView fx:id="like_btn" glyphName="HEART_ALT" size="30" styleClass="like" />
+               <Label fx:id="like_count_lbl" text="1000" />
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
+               <FontAwesomeIconView fx:id="dislike_btn" glyphName="THUMBS_DOWN" size="30" styleClass="dislike" />
+               <Label fx:id="dislike_count_lbl" text="500" />
+            </HBox>
+            <HBox layoutX="326.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
+               <Button fx:id="comment_btn" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="comment" />
+               <Label fx:id="comment_count_lbl" text="30" />
+            </HBox>
+         </HBox>
       </VBox>
    </center>
 </BorderPane>

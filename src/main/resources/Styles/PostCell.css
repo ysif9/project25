@@ -53,7 +53,20 @@
     -fx-cursor: hand;
     -fx-fill: #1f77ea;
 }
+.like:hover{
+    -fx-cursor: hand;
+    -fx-fill: #ee4646;
+}
 .post_container{
     -fx-border-radius: 10;
 -fx-effect: dropshadow(three-pass-box,#CCCCCC,6,0,0,5);
+}
+.comment_submit_container{
+    -fx-alignment: center;
+    -fx-spacing: 10;
+    -fx-border-radius: 100;
+}
+.comment_cells_container{
+    -fx-border-radius: 100;
+    -fx-background-color: #aaaaaa;
 }
