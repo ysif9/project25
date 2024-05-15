@@ -1,0 +1,15 @@
+.comment_cell{
+    -fx-border-radius: 80px;
+    -fx-padding: 5 15 5 15;
+-fx-spacing: 5;
+}
+.user_name{
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-weight: 600;
+    -fx-font-size: 3ex;
+}
+.content{
+    -fx-font-size: 2.4ex;
+    -fx-font-weight: 500;
+    -fx-font-family: "Segoe UI Semilight";
+}

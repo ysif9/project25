@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -23,7 +22,7 @@
       </HBox>
    </top>
    <bottom>
-      <TitledPane fx:id="comment_pane"  expanded="false" textFill="#f2f2f2">
+      <TitledPane fx:id="comment_pane" textFill="#f2f2f2">
          <VBox prefHeight="270.0" prefWidth="600.0">
             <VBox fx:id="comment_section">
                <ScrollPane fx:id="scrollpane" prefHeight="200.0" prefWidth="200.0" styleClass="comment_cells_container">
@@ -38,28 +37,35 @@
       </TitledPane>
    </bottom>
    <center>
-      <VBox styleClass="Body_container" BorderPane.alignment="CENTER">
-         <ImageView fx:id="post_image" fitHeight="384.0" fitWidth="440.0" pickOnBounds="true" preserveRatio="true">
-            <VBox.margin>
-               <Insets left="130.0" />
-            </VBox.margin>
-            <Image url="@../Images/postimage.jpg" />
-         </ImageView>
-         <Label fx:id="post_text_lbl" prefHeight="73.0" prefWidth="492.0" text="Add the Text of the Post here " />
-         <HBox prefHeight="111.0" prefWidth="600.0" styleClass="Interactions_container">
-            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
-               <FontAwesomeIconView fx:id="like_btn" glyphName="HEART_ALT" size="30" styleClass="like" />
-               <Label fx:id="like_count_lbl" text="1000" />
+      <BorderPane styleClass="Body_container" BorderPane.alignment="CENTER">
+         <center>
+            <ImageView fx:id="post_image" fitHeight="384.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../Images/postimage.jpg" />
+            </ImageView>
+         </center>
+         <top>
+            <HBox styleClass="text_container" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="post_text_lbl" alignment="CENTER" prefHeight="135.0" prefWidth="492.0" text="Add the Text of the Post here " />
+               </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
-               <FontAwesomeIconView fx:id="dislike_btn" glyphName="THUMBS_DOWN" size="30" styleClass="dislike" />
-               <Label fx:id="dislike_count_lbl" text="500" />
+         </top>
+         <bottom>
+            <HBox prefHeight="111.0" prefWidth="600.0" styleClass="Interactions_container" BorderPane.alignment="CENTER">
+               <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
+                  <FontAwesomeIconView fx:id="like_btn" glyphName="HEART_ALT" size="30" styleClass="like" />
+                  <Label fx:id="like_count_lbl" text="1000" />
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
+                  <FontAwesomeIconView fx:id="dislike_btn" glyphName="THUMBS_DOWN" size="30" styleClass="dislike" />
+                  <Label fx:id="dislike_count_lbl" text="500" />
+               </HBox>
+               <HBox layoutX="326.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
+                  <Button fx:id="comment_btn" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="comment" />
+                  <Label fx:id="comment_count_lbl" text="30" />
+               </HBox>
             </HBox>
-            <HBox layoutX="326.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" styleClass="Like_container">
-               <Button fx:id="comment_btn" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" styleClass="comment" />
-               <Label fx:id="comment_count_lbl" text="30" />
-            </HBox>
-         </HBox>
-      </VBox>
+         </bottom>
+      </BorderPane>
    </center>
 </BorderPane>

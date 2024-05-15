@@ -37,9 +37,9 @@
 
 }
 .Body_container Label{
-    -fx-font-family: "Calibri";
-    -fx-font-size: 1.2em;
-    -fx-font-weight: 600;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 1.3em;
+
 }
 .comment {
     -fx-background-color: transparent;
@@ -69,10 +69,11 @@
     -fx-border-radius: 100;
 }
 .comment_cells_container{
-    -fx-border-radius: 100;
+    -fx-border-radius: 100px;
     -fx-background-color: #aaaaaa;
 }
 .comment_submit_container{
+    -fx-padding: 10 0 10 0;
     -fx-alignment: center;
     -fx-spacing: 10;
     -fx-border-radius: 100;
@@ -80,4 +81,13 @@
 .comment_cells_container{
     -fx-border-radius: 100;
     -fx-background-color: #aaaaaa;
+}
+.content_container{
+    -fx-alignment:  center;
+-fx-padding: 20;
+}
+.text_container{
+    -fx-alignment: center;
+    -fx-padding: 10 0 0 0;
+
 }

@@ -59,7 +59,9 @@ public class PostCellController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         //post initialization
-        post_cell_container.setPrefHeight(650);
+
+        post_text_lbl.setWrapText(true);
+        post_cell_container.setPrefHeight(710);
         profile_picture.setImage(currentPost.getAuthor().getProfilePicture());
         user_name_lbl.setText(currentPost.getAuthor().getUsername());
         post_image.setImage(currentPost.getPostImage());
@@ -88,11 +90,11 @@ public class PostCellController implements Initializable {
 
         //open comment window
         if (commentClicked.getValue()){
-            post_cell_container.setPrefHeight(900);
+            post_cell_container.setPrefHeight(1000);
             comment_pane.setExpanded(true);
         }
         else {
-            post_cell_container.setPrefHeight(650);
+            post_cell_container.setPrefHeight(710);
             comment_pane.setExpanded(false);
         }
 
