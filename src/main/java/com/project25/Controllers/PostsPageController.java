@@ -45,7 +45,7 @@ public class PostsPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        Model.getInstance().fetchPostsFromDatabase();
         setupToolBar();
         // Emoji Keyboard
         EmojiKeyboard emojiKeyboard = new EmojiKeyboard(status_fld);
@@ -72,7 +72,7 @@ public class PostsPageController implements Initializable {
                 // Create new post
                 User tempNewUser = new User(0, "yousif", "yousif", "salah", "hey", profilePicture);
                 Post post = new Post(Model.getInstance().getAllPosts().size(), currentImage, status_fld.getText(), tempNewUser, LocalDate.now());
-                newPost(post);
+                newPost(post, false);
                 status_fld.setText("");
                 currentImage = null;
             }
@@ -99,6 +99,8 @@ public class PostsPageController implements Initializable {
                 emojiPopover.show(emoji_btn);
             }
         });
+
+        loadAllPosts();
     }
 
     private void setupToolBar() {
@@ -118,9 +120,11 @@ public class PostsPageController implements Initializable {
         var msg_btn = new Button("", new FontIcon(Feather.MESSAGE_SQUARE));
         var user_btn = new Button("", new FontIcon(Feather.USER));
         var settings_btn = new Button("", new FontIcon(Feather.SETTINGS));
+        var img = new Image(String.valueOf(getClass().getResource("/Images/logo1.jpg")), 100, 100, true, false);
+        var imgview = new ImageView(img);
 
         toolbar.getChildren().addAll(
-                new ImageView(),
+                new ImageView(img),
                 new Spacer(10),
                 textField,
                 msg_btn,
@@ -131,7 +135,7 @@ public class PostsPageController implements Initializable {
         toolbar.setPadding(new Insets(0, 20, 0, 50));
     }
 
-    private void newPost(Post post){
+    private void newPost(Post post, boolean loading) {
         // init new Post Cell
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/PostCell.fxml"));
         PostCellController postCellController = new PostCellController(post);
@@ -143,7 +147,9 @@ public class PostsPageController implements Initializable {
         }
 
         // add to model's list
-        Model.getInstance().getAllPosts().add(post);
+        if (!loading) {
+            Model.getInstance().newPost(post);
+        }
     }
 
     static class EmojiKeyboard extends VBox {
@@ -174,6 +180,12 @@ public class PostsPageController implements Initializable {
 
         private void addEmojiToTextArea(String emoji) {
             textArea.appendText(emoji);
+        }
+    }
+
+    private void loadAllPosts() {
+        for (Post post : Model.getInstance().getAllPosts()) {
+            newPost(post, true);
         }
     }
 }

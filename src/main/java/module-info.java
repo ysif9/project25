@@ -12,6 +12,7 @@ module com.project25 {
     requires org.kordamp.ikonli.feather;
     requires org.kordamp.ikonli.material2;
     requires org.kordamp.ikonli.core;
+    requires javafx.swing;
 
     opens com.project25 to javafx.fxml;
     exports com.project25;

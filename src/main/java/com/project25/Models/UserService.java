@@ -3,7 +3,7 @@ package com.project25.Models;
 import com.project25.Exceptions.UsernameTakenException;
 import com.project25.Exceptions.ValidationException;
 
-import java.sql.*;
+import java.sql.SQLException;
 
 public class UserService {
     private String username;
@@ -12,11 +12,7 @@ public class UserService {
     DatabaseDriver db;
 
     public UserService() {
-        try {
-            db = new DatabaseDriver();
-        } catch (SQLException e) {
-            System.out.println("Database connection error: " + e.getMessage());
-        }
+        db = Model.getInstance().getDatabaseDriver();
     }
 
     public void emailInput(String email) throws ValidationException {

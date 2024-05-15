@@ -1,92 +1,120 @@
 package com.project25.Models;
-import com.project25.Exceptions.UsernameTakenException;
 
+import com.project25.Components.Post;
+import com.project25.Components.User;
+import com.project25.Exceptions.UsernameTakenException;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseDriver {
-        private final Connection connection; // Connection object for database connection
-        private static final String DB_URL = "jdbc:sqlite:main.db"; // DatabaseDriver URL
-        private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS users (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "Email VARCHAR(255) NOT NULL," +
-                "Username VARCHAR(255) NOT NULL," +
-                "HashedPass VARCHAR(255) NOT NULL" +
-                ")";
-        private static final String INSERT_USER_SQL = "INSERT INTO users (Email, Username, HashedPass) VALUES (?, ?, ?)";
-        private static final String CHECK_USERNAME_SQL = "SELECT Username FROM users WHERE Username = ?";
-        private static final String SELECT_USER_SQL = "SELECT * FROM users WHERE Username = ? AND HashedPass = ?";
-        private String email; // User email
-        private String username; // Username
-        private String password; // Password
+    private static final String DB_URL = "jdbc:sqlite:main.db"; // DatabaseDriver URL
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS users (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "Email VARCHAR(255) NOT NULL," +
+            "Username VARCHAR(255) NOT NULL," +
+            "HashedPass VARCHAR(255) NOT NULL" +
+            ")";
+    private static final String INSERT_USER_SQL = "INSERT INTO users (Email, Username, HashedPass) VALUES (?, ?, ?)";
+    private static final String CHECK_USERNAME_SQL = "SELECT Username FROM users WHERE Username = ?";
+    private static final String SELECT_USER_SQL = "SELECT * FROM users WHERE Username = ? AND HashedPass = ?";
+    // Posts
+    private static final String CREATE_POST_SQL = "CREATE TABLE IF NOT EXISTS posts (" +
+            "ID INTEGER PRIMARY KEY," +
+            "postImage BLOB," +
+            "creationTime TEXT," +
+            "content TEXT," +
+            "author_username TEXT," +
+            "FOREIGN KEY (author_username) REFERENCES users(username)" +
+            ")";
+    private Connection connection; // Connection object for database connection
+    private String email; // User email
+    private String username; // Username
+    private String password; // Password
 
 
-        // Constructor to establish database connection
-        public DatabaseDriver() throws SQLException {
+    // Constructor to establish database connection
+    public DatabaseDriver() {
+        try {
             connection = DriverManager.getConnection(DB_URL); // Attempt to establish a connection to the database
             createTableIfNotExists(); // Create user table if it doesn't exist
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        // Setter for email
-        public void setEmail(String email) {
-            this.email = email;
+    }
+
+    // Setter for email
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    // Setter for username
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    // Setter for password
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // Method to create user table if it doesn't exist
+    private void createTableIfNotExists() throws SQLException {
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(CREATE_TABLE_SQL); // Execute SQL to create table if it doesn't exist
+            stmt.execute(CREATE_POST_SQL);
         }
+    }
 
-        // Setter for username
-        public void setUsername(String username) {
-            this.username = username;
+    // Method to import user data into the database
+    public void importUserData() throws SQLException {
+        addUser(); // Add user to the database
+    }
+
+    public boolean fetchUserData() throws SQLException {
+        ResultSet resultSet = getUser();
+        return resultSet.isBeforeFirst();
+
+    }
+
+    private ResultSet getUser() throws SQLException {
+        PreparedStatement pstmt = connection.prepareStatement(SELECT_USER_SQL);
+        pstmt.setString(1, username);
+        pstmt.setString(2, hashPassword(password));
+        return pstmt.executeQuery();
+    }
+
+    // Method to add user to the database
+    private void addUser() throws SQLException {
+        String hashedPassword = hashPassword(password); // Hash the password before storing
+        PreparedStatement pstmt = connection.prepareStatement(INSERT_USER_SQL);
+        pstmt.setString(1, email); // Set email parameter
+        pstmt.setString(2, username); // Set username parameter
+        pstmt.setString(3, hashedPassword); // Set hashed password parameter
+        pstmt.executeUpdate(); // Execute SQL to insert user into the database
+    }
+
+    // Method to close the database connection
+    public void closeConnection() {
+        try {
+            connection.close(); // Close the database connection
+        } catch (SQLException e) {
+            System.out.println("DatabaseDriver connection error: " + e.getMessage()); // Output error message if closing connection fails
         }
-
-        // Setter for password
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        // Method to create user table if it doesn't exist
-        private void createTableIfNotExists() throws SQLException {
-            try (Statement stmt = connection.createStatement()) {
-                stmt.execute(CREATE_TABLE_SQL); // Execute SQL to create table if it doesn't exist
-            }
-        }
-
-        // Method to import user data into the database
-        public void importUserData() throws SQLException {
-            addUser(); // Add user to the database
-        }
-
-        public boolean fetchUserData() throws SQLException {
-            ResultSet resultSet = getUser();
-            return resultSet.isBeforeFirst();
-
-        }
-
-        private ResultSet getUser() throws SQLException {
-            PreparedStatement pstmt = connection.prepareStatement(SELECT_USER_SQL);
-            pstmt.setString(1, username);
-            pstmt.setString(2, hashPassword(password));
-            return pstmt.executeQuery();
-        }
-
-        // Method to add user to the database
-        private void addUser() throws SQLException {
-            String hashedPassword = hashPassword(password); // Hash the password before storing
-             PreparedStatement pstmt = connection.prepareStatement(INSERT_USER_SQL);
-             pstmt.setString(1, email); // Set email parameter
-             pstmt.setString(2, username); // Set username parameter
-             pstmt.setString(3, hashedPassword); // Set hashed password parameter
-             pstmt.executeUpdate(); // Execute SQL to insert user into the database
-        }
-
-        // Method to close the database connection
-        public void closeConnection() {
-            try {
-                connection.close(); // Close the database connection
-            } catch (SQLException e) {
-                System.out.println("DatabaseDriver connection error: " + e.getMessage()); // Output error message if closing connection fails
-                      }
-            }
+    }
 
 
     public void isUsernameTaken(String username) throws UsernameTakenException {
@@ -120,5 +148,76 @@ public class DatabaseDriver {
         }
     }
 
+    /*
+    Posts Data
+    * */
 
+    public void savePost(Post post) {
+        String sql = "INSERT INTO posts (ID, postImage, creationTime, content, author_username) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = this.connection.prepareStatement(sql)) {
+            pstmt.setInt(1, post.getID());
+            pstmt.setBytes(2, imageToByteArray(post.getPostImage()));
+            pstmt.setObject(3, post.getCreationTime());
+            pstmt.setString(4, post.getContent());
+            pstmt.setString(5, post.getAuthor().getUsername());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public byte[] imageToByteArray(Image image) {
+        if (image == null) {
+            return new byte[0];
+        }
+        BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(bImage, "jpg", outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return outputStream.toByteArray();
+    }
+
+    public Image byteArrayToImage(byte[] byteArray) {
+        if (byteArray.length > 2) {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray);
+            try {
+                BufferedImage bImage = ImageIO.read(inputStream);
+                return SwingFXUtils.toFXImage(bImage, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return null;
+    }
+
+    public List<Post> loadAllPosts() {
+        List<Post> posts = new ArrayList<>();
+        try {
+            Statement stmt = this.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM posts");
+
+            while (rs.next()) {
+                int ID = rs.getInt("ID");
+                Image postImage = byteArrayToImage(rs.getBytes("postImage"));
+                LocalDate creationTime = LocalDate.parse(rs.getString("creationTime"));
+                String content = rs.getString("content");
+                String authorUsername = rs.getString("author_username");
+
+                // implement this from philo
+                // User author = getUserByUsername(authorUsername);
+                //fetch comments and likes here if needed
+                Image profilePicture = new Image(String.valueOf(getClass().getResource("/Images/profile2.jpg")), 280, 280, true, false);
+                Post post = new Post(ID, postImage, content, new User(0, "yousif", "yousif", "salah", "hey", profilePicture), creationTime);
+                posts.add(post);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return posts;
+    }
 }

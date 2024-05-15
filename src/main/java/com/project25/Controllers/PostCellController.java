@@ -3,9 +3,7 @@ package com.project25.Controllers;
 import atlantafx.base.util.Animations;
 import com.project25.Components.Like;
 import com.project25.Components.Post;
-import com.project25.Components.User;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -79,6 +77,8 @@ public class PostCellController implements Initializable {
         like_btn.setOnMouseClicked(this::likeBtnClicked);
         dislike_btn.setOnMouseClicked(this::dislikeBtnClicked);
         comment_btn.setOnAction(e-> commentBtnClicked());
+
+        comment_pane.setExpanded(false);
 
 
     }
