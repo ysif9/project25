@@ -22,19 +22,21 @@
       </HBox>
    </top>
    <bottom>
-      <TitledPane fx:id="comment_pane" textFill="#f2f2f2">
-         <VBox prefHeight="270.0" prefWidth="600.0">
-            <VBox fx:id="comment_section">
-               <ScrollPane fx:id="scrollpane" prefHeight="200.0" prefWidth="200.0" styleClass="comment_cells_container">
-                  <VBox fx:id="comment_section_container" prefHeight="200.0" prefWidth="562.0" />
-               </ScrollPane>
-               <HBox alignment="BOTTOM_LEFT" prefHeight="88.0" prefWidth="598.0" styleClass="comment_submit_container">
-                  <TextArea fx:id="comment_input_fld" prefHeight="88.0" prefWidth="484.0" />
-                  <Button fx:id="comment_submit_btn" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0" text="Submit" />
-               </HBox>
-            </VBox>
-         </VBox>
-      </TitledPane>
+      <VBox styleClass="comment_section_vbox">
+         <children>
+            <TitledPane fx:id="comment_pane" expanded="false" textFill="#f2f2f2">
+               <VBox fx:id="comment_section">
+                  <ScrollPane fx:id="scrollpane" prefHeight="200.0" prefWidth="200.0" styleClass="comment_cells_container">
+                     <VBox fx:id="comment_section_container" prefHeight="200.0" prefWidth="562.0" styleClass="comment_cells_Vbox" />
+                  </ScrollPane>
+                  <HBox alignment="BOTTOM_LEFT" prefHeight="88.0" prefWidth="598.0" styleClass="comment_submit_container">
+                     <TextArea fx:id="comment_input_fld" prefHeight="88.0" prefWidth="484.0" />
+                     <Button fx:id="comment_submit_btn" mnemonicParsing="false" prefHeight="31.0" prefWidth="73.0" styleClass="comment_submit_button" text="Submit" />
+                  </HBox>
+               </VBox>
+            </TitledPane>
+         </children>
+      </VBox>
    </bottom>
    <center>
       <BorderPane styleClass="Body_container" BorderPane.alignment="CENTER">

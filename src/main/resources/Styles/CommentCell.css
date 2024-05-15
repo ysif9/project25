@@ -1,7 +1,9 @@
 .comment_cell{
-    -fx-border-radius: 80px;
+    -fx-border-radius: 5;
     -fx-padding: 5 15 5 15;
 -fx-spacing: 5;
+    -fx-background-color: white;
+
 }
 .user_name{
     -fx-font-family: "Segoe UI Semibold";
@@ -9,7 +11,7 @@
     -fx-font-size: 3ex;
 }
 .content{
-    -fx-font-size: 2.4ex;
-    -fx-font-weight: 500;
+    -fx-font-size: 2.5ex;
+-fx-text-fill: black;
     -fx-font-family: "Segoe UI Semilight";
 }

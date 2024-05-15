@@ -3,10 +3,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox prefHeight="100.0" prefWidth="400.0" styleClass="comment_cell" stylesheets="@../Styles/CommentCell.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label styleClass="user_name" text="User name" VBox.vgrow="NEVER" />
-      <Label alignment="CENTER" prefHeight="65.0" prefWidth="374.0" styleClass="content" text="comment content here" />
-   </children>
+<VBox prefHeight="100.0" prefWidth="400.0" styleClass="comment_cell" stylesheets="@../Styles/CommentCell.css"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" >
+   <Label fx:id="username_lbl" styleClass="user_name" text="User name" VBox.vgrow="NEVER"/>
+   <Label fx:id="comment_text_lbl" prefHeight="65.0" prefWidth="374.0" styleClass="content"
+          text="comment content here"/>
 </VBox>

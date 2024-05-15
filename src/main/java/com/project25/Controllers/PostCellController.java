@@ -1,6 +1,7 @@
 package com.project25.Controllers;
 
 import atlantafx.base.util.Animations;
+import com.project25.Components.Comment;
 import com.project25.Components.Like;
 import com.project25.Components.Post;
 import com.project25.Components.User;
@@ -10,6 +11,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -18,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -79,7 +82,34 @@ public class PostCellController implements Initializable {
         like_btn.setOnMouseClicked(this::likeBtnClicked);
         dislike_btn.setOnMouseClicked(this::dislikeBtnClicked);
         comment_btn.setOnAction(e-> commentBtnClicked());
+        comment_submit_btn.setOnAction(e-> {
+            try {
+                createNewComment();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
+    }
+
+    private void createNewComment() throws IOException {
+        //move to model
+        if(currentPost.getAuthor() != null) {
+            if(!comment_input_fld.getText().equals("")){
+            Comment comment = new Comment(1, LocalDate.now(), currentPost.getAuthor(), comment_input_fld.getText());
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/CommentCell.fxml"));
+            CommentCellController cellController = new CommentCellController();
+            loader.setController(cellController);
+            VBox commentCell = loader.load();
+            cellController.newComment(comment , comment_input_fld.getText());
+            comment_section_container.getChildren().add(commentCell);
+            comment_input_fld.clear();}
+            else{
+                var animation = Animations.shakeX(comment_submit_btn, 0.5);
+                animation.playFromStart();
+            }
+        }
 
     }
 
