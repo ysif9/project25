@@ -114,12 +114,11 @@ public class PostsPageController implements Initializable {
         dropdown.getItems().setAll(
                 new MenuItem("Theme 1"),
                 new MenuItem("Theme 2"),
-                new MenuItem("Theme 3")
+                new MenuItem("Log Out")
         );
 
         var msg_btn = new Button("", new FontIcon(Feather.MESSAGE_SQUARE));
         var user_btn = new Button("", new FontIcon(Feather.USER));
-        var settings_btn = new Button("", new FontIcon(Feather.SETTINGS));
         var img = new Image(String.valueOf(getClass().getResource("/Images/logo1.jpg")), 100, 100, true, false);
         var imgview = new ImageView(img);
 
@@ -129,7 +128,6 @@ public class PostsPageController implements Initializable {
                 textField,
                 msg_btn,
                 user_btn,
-                settings_btn,
                 dropdown
         );
         toolbar.setPadding(new Insets(0, 20, 0, 50));

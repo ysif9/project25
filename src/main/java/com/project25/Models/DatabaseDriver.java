@@ -300,6 +300,14 @@ public class DatabaseDriver {
         storeInteraction(dislike, postId, "dislikes");
     }
 
+    public void deleteLike(int likeId) {
+        deleteInteraction(likeId, "likes");
+    }
+
+    public void deleteDislike(int dislikeId) {
+        deleteInteraction(dislikeId, "dislikes");
+    }
+
     public List<Like> loadLikesForPost(int postId) {
         return loadInteractionsForPost(postId, "likes");
     }
@@ -342,6 +350,17 @@ public class DatabaseDriver {
         }
         return (List<T>) interactions;
     }
+
+
+    private void deleteInteraction(int interactionId, String tableName) {
+        try (PreparedStatement pstmt = connection.prepareStatement("DELETE FROM " + tableName + " WHERE id = ?")) {
+            pstmt.setInt(1, interactionId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private User getUserByUsername(String username) {
         // temporary until philo commit

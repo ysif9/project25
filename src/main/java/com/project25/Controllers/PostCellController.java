@@ -4,9 +4,7 @@ import atlantafx.base.util.Animations;
 import com.project25.Components.Comment;
 import com.project25.Components.Like;
 import com.project25.Components.Post;
-import com.project25.Components.User;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -19,6 +17,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 
 public class PostCellController implements Initializable {
     //controls
-    public ImageView profile_picture;
+    public Circle profile_picture;
     public Label user_name_lbl;
     public FontAwesomeIconView like_btn;
     public FontAwesomeIconView dislike_btn;
@@ -65,7 +65,10 @@ public class PostCellController implements Initializable {
 
         post_text_lbl.setWrapText(true);
         post_cell_container.setPrefHeight(710);
-        profile_picture.setImage(currentPost.getAuthor().getProfilePicture());
+        ImagePattern pattern = new ImagePattern(
+                currentPost.getAuthor().getProfilePicture()
+        );
+        profile_picture.setFill(pattern);
         user_name_lbl.setText(currentPost.getAuthor().getUsername());
         post_image.setImage(currentPost.getPostImage());
         post_text_lbl.setText(currentPost.getContent());
