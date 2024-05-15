@@ -89,7 +89,6 @@ public class PostCellController implements Initializable {
                 ex.printStackTrace();
             }
         });
-
     }
 
     private void createNewComment() throws IOException {
