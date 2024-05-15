@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Circle?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../Styles/PostsPage.css" xmlns="http://javafx.com/javafx/21"
-      fx:controller="com.project25.Controllers.PostsPageController">
-    <children>
+<?import javafx.scene.text.Font?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="1000.0" prefWidth="1500.0"
+            style="-fx-background-color: transparent;" stylesheets="@../Styles/PostsPage.css"
+            xmlns="http://javafx.com/javafx/21" fx:controller="com.project25.Controllers.PostsPageController">
+    <top>
         <HBox fx:id="toolbar" prefHeight="55.0" prefWidth="1018.0" styleClass="tool_bar">
             <effect>
                 <DropShadow blurType="GAUSSIAN">
@@ -19,62 +21,81 @@
                 </DropShadow>
             </effect>
         </HBox>
-        <HBox VBox.vgrow="ALWAYS">
+    </top>
+    <center>
+        <ScrollPane fitToWidth="true" prefHeight="404.0" prefWidth="618.0" styleClass="main_container"
+                    HBox.hgrow="ALWAYS">
+            <VBox fx:id="root" alignment="TOP_CENTER" prefHeight="661.0" prefWidth="596.0" styleClass="main_container">
+                <VBox alignment="CENTER_LEFT" fillWidth="false" maxWidth="700" minHeight="-Infinity" prefHeight="205.0"
+                      prefWidth="600.0" styleClass="container_main" stylesheets="@../Styles/NewPost.css">
+                    <padding>
+                        <Insets bottom="10.0" top="20.0"/>
+                    </padding>
+                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                        <children>
+                            <Circle fx:id="profile_image" fill="DODGERBLUE" radius="40.0"/>
+                            <TextArea fx:id="status_fld" prefHeight="99.0" prefWidth="516.0"
+                                      promptText="What's On Your Mind?" HBox.hgrow="ALWAYS"/>
+                        </children>
+                        <padding>
+                            <Insets left="20.0"/>
+                        </padding>
+                    </HBox>
+                    <Separator prefHeight="25.0" prefWidth="Infinity"/>
+                    <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="30.0" spacing="10.0">
+                        <children>
+                            <Button fx:id="photo_btn" mnemonicParsing="false" styleClass="chosen-button"
+                                    text="Photo/Video">
+                                <graphic>
+                                    <FontAwesomeIconView glyphName="PHOTO" size="30"/>
+                                </graphic>
+                            </Button>
+                            <Button fx:id="emoji_btn" mnemonicParsing="false" styleClass="chosen-button"
+                                    text="Feeling/Activity">
+                                <graphic>
+                                    <FontAwesomeIconView glyphName="SMILE_ALT" size="30"/>
+                                </graphic>
+                            </Button>
+                            <Button fx:id="newpost_btn" layoutX="20.0" layoutY="10.0" mnemonicParsing="false"
+                                    text="New Post">
+                                <HBox.margin>
+                                    <Insets left="190.0"/>
+                                </HBox.margin>
+                            </Button>
+                        </children>
+                        <padding>
+                            <Insets left="10.0"/>
+                        </padding>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+    <left>
+        <VBox maxWidth="251.0" minWidth="-Infinity" prefHeight="945.0" prefWidth="500.0" spacing="20.0"
+              styleClass="side_container" HBox.hgrow="ALWAYS">
             <children>
-                <VBox maxWidth="200.0" prefHeight="404.0" prefWidth="200.0" styleClass="side_container"
-                      HBox.hgrow="ALWAYS"/>
-                <ScrollPane fitToWidth="true" prefHeight="404.0" prefWidth="618.0" styleClass="main_container"
-                            HBox.hgrow="ALWAYS">
-                    <VBox fx:id="root" alignment="TOP_CENTER" prefHeight="661.0" prefWidth="596.0"
-                          styleClass="main_container">
-                        <VBox alignment="CENTER_LEFT" fillWidth="false" maxWidth="700" minHeight="-Infinity"
-                              prefHeight="205.0" prefWidth="600.0" styleClass="container_main"
-                              stylesheets="@../Styles/NewPost.css">
-                            <padding>
-                                <Insets bottom="10.0" top="20.0"/>
-                            </padding>
-                            <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
-                                <children>
-                                    <Circle fx:id="profile_image" fill="DODGERBLUE" radius="40.0"/>
-                                    <TextArea fx:id="status_fld" prefHeight="99.0" prefWidth="516.0"
-                                              promptText="What's On Your Mind?" HBox.hgrow="ALWAYS"/>
-                                </children>
-                                <padding>
-                                    <Insets left="20.0"/>
-                                </padding>
-                            </HBox>
-                            <Separator prefHeight="25.0" prefWidth="Infinity"/>
-                            <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="30.0" spacing="10.0">
-                                <children>
-                                    <Button fx:id="photo_btn" mnemonicParsing="false" styleClass="chosen-button"
-                                            text="Photo/Video">
-                                        <graphic>
-                                            <FontAwesomeIconView glyphName="PHOTO" size="30"/>
-                                        </graphic>
-                                    </Button>
-                                    <Button fx:id="emoji_btn" mnemonicParsing="false" styleClass="chosen-button"
-                                            text="Feeling/Activity">
-                                        <graphic>
-                                            <FontAwesomeIconView glyphName="SMILE_ALT" size="30"/>
-                                        </graphic>
-                                    </Button>
-                                    <Button fx:id="newpost_btn" layoutX="20.0" layoutY="10.0" mnemonicParsing="false"
-                                            text="New Post">
-                                        <HBox.margin>
-                                            <Insets left="190.0"/>
-                                        </HBox.margin>
-                                    </Button>
-                                </children>
-                                <padding>
-                                    <Insets left="10.0"/>
-                                </padding>
-                            </HBox>
-                        </VBox>
-                    </VBox>
-                </ScrollPane>
-                <VBox layoutX="10.0" layoutY="10.0" maxWidth="200.0" prefHeight="404.0" prefWidth="200.0"
-                      styleClass="side_container" HBox.hgrow="ALWAYS"/>
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                    <children>
+                        <Circle fill="DODGERBLUE" radius="37.0" stroke="BLACK" strokeType="INSIDE"/>
+                        <Label text="Ahmed Lotfy Lotfy">
+                            <font>
+                                <Font name="Segoe UI Semibold" size="17.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets left="10.0"/>
+                    </padding>
+                </HBox>
             </children>
-        </HBox>
-    </children>
-</VBox>
+            <padding>
+                <Insets left="200.0" top="20.0"/>
+            </padding>
+        </VBox>
+    </left>
+    <right>
+        <VBox layoutX="10.0" layoutY="10.0" maxWidth="200.0" minWidth="-Infinity" prefHeight="404.0" prefWidth="500.0"
+              styleClass="side_container" HBox.hgrow="ALWAYS"/>
+    </right>
+</BorderPane>

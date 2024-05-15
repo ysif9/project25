@@ -1,5 +1,6 @@
 package com.project25.Views;
 
+import com.project25.Models.Model;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -34,6 +35,11 @@ public class ViewFactory {
         stage.setMaximized(true);
         stage.show();
 
+        stage.setOnCloseRequest(e -> {
+            e.consume();
+            Model.getInstance().getDatabaseDriver().closeConnection();
+            System.exit(0);
+        });
         currentStage = stage.getScene().getWindow();
     }
 
