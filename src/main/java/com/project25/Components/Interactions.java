@@ -6,6 +6,7 @@ public abstract class Interactions {
     private int id;
     private LocalDate creationTime;
     private User owner;
+    private Post parentPost;
     
     public Interactions() {
     }
@@ -36,5 +37,13 @@ public abstract class Interactions {
 
     public User getOwner() {
         return owner;
+    }
+
+    public Post getParentPost() {
+        return parentPost;
+    }
+
+    public void setParentPost(Post parentPost) {
+        this.parentPost = parentPost;
     }
 }

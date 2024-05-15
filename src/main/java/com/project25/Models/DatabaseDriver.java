@@ -1,7 +1,6 @@
 package com.project25.Models;
 
-import com.project25.Components.Post;
-import com.project25.Components.User;
+import com.project25.Components.*;
 import com.project25.Exceptions.UsernameTakenException;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -39,6 +38,35 @@ public class DatabaseDriver {
             "author_username TEXT," +
             "FOREIGN KEY (author_username) REFERENCES users(username)" +
             ")";
+    private static final String CREATE_COMMENTS_TABLE_SQL = "CREATE TABLE IF NOT EXISTS comments (" +
+            "id INTEGER PRIMARY KEY," +
+            "creationTime TEXT," +
+            "owner_username TEXT," +
+            "content TEXT," +
+            "post_id INTEGER," +
+            "FOREIGN KEY (owner_username) REFERENCES users(username)," +
+            "FOREIGN KEY (post_id) REFERENCES posts(ID)" +
+            ")";
+    private static final String CREATE_LIKES_TABLE_SQL = "CREATE TABLE IF NOT EXISTS likes (" +
+            "id INTEGER PRIMARY KEY," +
+            "creationTime TEXT," +
+            "owner_username TEXT," +
+            "post_id INTEGER," +
+            "FOREIGN KEY (owner_username) REFERENCES users(username)," +
+            "FOREIGN KEY (post_id) REFERENCES posts(ID)" +
+            ")";
+
+    // Dislikes table creation SQL (similar to Likes table)
+    private static final String CREATE_DISLIKES_TABLE_SQL = "CREATE TABLE IF NOT EXISTS dislikes (" +
+            "id INTEGER PRIMARY KEY," +
+            "creationTime TEXT," +
+            "owner_username TEXT," +
+            "post_id INTEGER," +
+            "FOREIGN KEY (owner_username) REFERENCES users(username)," +
+            "FOREIGN KEY (post_id) REFERENCES posts(ID)" +
+            ")";
+
+
     private Connection connection; // Connection object for database connection
     private String email; // User email
     private String username; // Username
@@ -76,6 +104,9 @@ public class DatabaseDriver {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(CREATE_TABLE_SQL); // Execute SQL to create table if it doesn't exist
             stmt.execute(CREATE_POST_SQL);
+            stmt.execute(CREATE_COMMENTS_TABLE_SQL);
+            stmt.execute(CREATE_LIKES_TABLE_SQL);
+            stmt.execute(CREATE_DISLIKES_TABLE_SQL);
         }
     }
 
@@ -208,16 +239,113 @@ public class DatabaseDriver {
                 String content = rs.getString("content");
                 String authorUsername = rs.getString("author_username");
 
-                // implement this from philo
-                // User author = getUserByUsername(authorUsername);
-                //fetch comments and likes here if needed
-                Image profilePicture = new Image(String.valueOf(getClass().getResource("/Images/profile2.jpg")), 280, 280, true, false);
-                Post post = new Post(ID, postImage, content, new User(0, "yousif", "yousif", "salah", "hey", profilePicture), creationTime);
+                User author = getUserByUsername(authorUsername);
+                Post post = new Post(ID, postImage, content, author, creationTime);
                 posts.add(post);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return posts;
+    }
+
+
+    /*
+     * Comments Part
+     * */
+    public void storeComment(Comment comment, int postId) {
+        try (PreparedStatement pstmt = connection.prepareStatement("INSERT INTO comments (id, creationTime, owner_username, content, post_id) VALUES (?, ?, ?, ?, ?)")) {
+            pstmt.setInt(1, comment.getId());
+            pstmt.setString(2, comment.getCreationTime().toString());
+            pstmt.setString(3, comment.getOwner().getUsername());
+            pstmt.setString(4, comment.getContent());
+            pstmt.setInt(5, postId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to load all comments for a specific post ID
+    public List<Comment> loadCommentsForPost(int postId) {
+        List<Comment> comments = new ArrayList<>();
+        try (PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM comments WHERE post_id = ?")) {
+            pstmt.setInt(1, postId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    LocalDate creationTime = LocalDate.parse(rs.getString("creationTime"));
+                    String ownerUsername = rs.getString("owner_username");
+                    String content = rs.getString("content");
+                    User owner = getUserByUsername(ownerUsername);
+                    Comment comment = new Comment(id, creationTime, owner, content);
+                    comments.add(comment);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comments;
+    }
+
+    /*
+     * Likes and Dislikes
+     * */
+
+    public void storeLike(Like like, int postId) {
+        storeInteraction(like, postId, "likes");
+    }
+
+    public void storeDislike(Dislike dislike, int postId) {
+        storeInteraction(dislike, postId, "dislikes");
+    }
+
+    public List<Like> loadLikesForPost(int postId) {
+        return loadInteractionsForPost(postId, "likes");
+    }
+
+    public List<Dislike> loadDislikesForPost(int postId) {
+        return loadInteractionsForPost(postId, "dislikes");
+    }
+
+    private void storeInteraction(Interactions interaction, int postId, String tableName) {
+        try (PreparedStatement pstmt = connection.prepareStatement("INSERT INTO " + tableName + " (id, creationTime, owner_username, post_id) VALUES (?, ?, ?, ?)")) {
+            pstmt.setInt(1, interaction.getId());
+            pstmt.setString(2, interaction.getCreationTime().toString());
+            pstmt.setString(3, interaction.getOwner().getUsername());
+            pstmt.setInt(4, postId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private <T extends Interactions> List<T> loadInteractionsForPost(int postId, String tableName) {
+        List<Interactions> interactions = new ArrayList<>();
+        try (PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE post_id = ?")) {
+            pstmt.setInt(1, postId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    LocalDate creationTime = LocalDate.parse(rs.getString("creationTime"));
+                    String ownerUsername = rs.getString("owner_username");
+                    User owner = getUserByUsername(ownerUsername);
+                    if (tableName.equals("likes")) {
+                        interactions.add(new Like(id, creationTime, owner));
+                    } else if (tableName.equals("dislikes")) {
+                        interactions.add(new Dislike(id, creationTime, owner));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (List<T>) interactions;
+    }
+
+    private User getUserByUsername(String username) {
+        // temporary until philo commit
+        Image profilePicture = new Image(String.valueOf(getClass().getResource("/Images/profile2.jpg")), 280, 280, true, false);
+        return new User(0, "yousif", "yousif", "salah", "hey", profilePicture);
     }
 }
