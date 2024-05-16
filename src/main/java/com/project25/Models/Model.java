@@ -133,16 +133,13 @@ public void deleteLikes(Like like){
         databaseDriver.deleteDislike(dislike.getId());
     }
     public int getPostsLikes(Post post){
-   likes = (ObservableList<Like>) databaseDriver.loadLikesForPost(post.getID());
-    return likes.size();
+        return databaseDriver.loadLikesForPost(post.getID()).size();
     }
     public int getPostsDislike(Post post){
-    dislikes = (ObservableList<Dislike>) databaseDriver.loadDislikesForPost(post.getID());
-    return dislikes.size();
+        return databaseDriver.loadDislikesForPost(post.getID()).size();
     }
 
-    public ObservableList<Comment> getComments(Post post) {
-    comments = (ObservableList<Comment>) databaseDriver.loadCommentsForPost(post.getID());
-        return comments;
+    public List<Comment> getComments(Post post) {
+        return databaseDriver.loadCommentsForPost(post.getID());
     }
 }
