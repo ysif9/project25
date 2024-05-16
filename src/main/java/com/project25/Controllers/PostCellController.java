@@ -98,9 +98,11 @@ public class PostCellController implements Initializable {
     }
 
     private void commentsLoading() throws IOException {
-        for(Comment comment:Model.getInstance().getAllPostsComments(currentPost)){
+        for(Comment comment:Model.getInstance().getComments(currentPost)){
             loadComment(comment);
+
         }
+        comment_count_lbl.setText(String.valueOf(Model.getInstance().getComments(currentPost).size()));
     }
 
     private void loadComment(Comment comment) throws IOException {
@@ -119,7 +121,7 @@ public class PostCellController implements Initializable {
             if(!comment_input_fld.getText().isEmpty()){
             Comment comment = new Comment(Model.getInstance().getAllComments().size(), LocalDate.now(), currentPost.getAuthor(), comment_input_fld.getText());
                 comment.setParentPost(currentPost);
-                Model.getInstance().addComment(comment);
+                Model.getInstance().addComment(comment, currentPost.getID());
                 loadComment(comment);
                 comment_input_fld.clear();}
             else{
@@ -158,15 +160,16 @@ public class PostCellController implements Initializable {
             likePulse.playFromStart();
             currentPost.removeLike(like);
         currentPost.addLike(like);
+        Model.getInstance().storeLikes(like, currentPost.getID());
         }
         else {
             this.like_btn.setGlyphName("HEART_ALT");
             this.like_btn.setFill(new Color(0, 0, 0, 1));
             //removeLike method in model
             currentPost.removeLike(like);
-
+        Model.getInstance().deleteLikes(like);
         }
-        like_count_lbl.setText(String.valueOf(currentPost.getLikes().size()));
+        like_count_lbl.setText(String.valueOf(Model.getInstance().getPostsLikes(currentPost)));
     }
 
     private void dislikeBtnClicked(MouseEvent event) {
@@ -178,11 +181,13 @@ public class PostCellController implements Initializable {
             dislike = new Dislike(currentPost.getDislikes().size(),LocalDate.now(),Model.getInstance().getCurrentUser());
             //addDislike method in model
             currentPost.addDisLike(dislike);
+            Model.getInstance().storeDislikes(dislike,currentPost.getID());
         }
         else {
             this.dislike_btn.setFill(new Color(0, 0, 0, 1));
             //removeDislike method in model
             currentPost.removeDisLike(dislike);
+            Model.getInstance().deleteDislikes(dislike);
         }
 dislike_count_lbl.setText(String.valueOf(currentPost.getDislikes().size()));
     }
