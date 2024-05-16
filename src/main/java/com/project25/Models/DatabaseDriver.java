@@ -347,9 +347,7 @@ public class DatabaseDriver {
             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE Username = ?");
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
-            System.out.println("here");
             if (rs.next()) {
-                System.out.println("nope");
                 int id = rs.getInt("id");
                 Image profilePicture = byteArrayToImage(rs.getBytes("ProfilePicture"));
                 // You may want to adjust this to match your User constructor
