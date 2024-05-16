@@ -51,7 +51,7 @@
          <Button fx:id="signInBtn" layoutX="84.0" layoutY="388.0" mnemonicParsing="false" onAction="#signInBtnOnAction"
                  prefHeight="35.0" prefWidth="231.0" styleClass="action-button" text="Sign in" textAlignment="CENTER"
                  AnchorPane.topAnchor="388.0"/>
-         <Label fx:id="errorLabel" alignment="CENTER" layoutX="84.0" layoutY="436.0" prefHeight="46.0" prefWidth="231.0"
+         <Label fx:id="errorLabel" alignment="CENTER" layoutX="84.0" layoutY="436.0" prefHeight="70.0" wrapText="true" prefWidth="231.0"
                 style="-fx-text-fill: red;" textAlignment="CENTER">
             <font>
                <Font name="Arial Rounded MT Bold" size="10.0"/>
