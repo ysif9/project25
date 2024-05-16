@@ -1,6 +1,7 @@
 package com.project25.Models;
 
 import com.project25.Components.Post;
+import com.project25.Components.User;
 import com.project25.Views.ViewFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +11,7 @@ public class Model {
     private final DatabaseDriver databaseDriver;
     private final ViewFactory viewFactory;
     private final ObservableList<Post> allPosts = FXCollections.observableArrayList();
+    private User currentUser;
 
     public Model() {
         viewFactory = new ViewFactory();
@@ -44,5 +46,13 @@ public class Model {
 
     public DatabaseDriver getDatabaseDriver() {
         return this.databaseDriver;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }

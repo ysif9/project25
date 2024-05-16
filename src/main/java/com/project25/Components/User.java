@@ -8,20 +8,14 @@ import java.util.List;
 public class User {
     private int id;
     private String username;
-    private String firstName;
-    private String lastName;
-    private String bio;
     private Image profilePicture;
     private final List<Post> posts;
     private final List<User> followers;
     private final List<User> following;
 
-    public User(int id, String username, String firstName, String lastName, String bio, Image profilePicture) {
+    public User(int id, String username, Image profilePicture) {
         this.id = id;
         this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.bio = bio;
         this.profilePicture = profilePicture;
         this.posts = new ArrayList<>();
         this.followers = new ArrayList<>();
@@ -42,30 +36,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
     }
 
     public Image getProfilePicture() {
@@ -103,9 +73,6 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", bio='" + bio + '\'' +
                 ", profilePictureURL='" + profilePicture + '\'' +
                 ", posts=" + posts +
                 ", followers=" + followers +

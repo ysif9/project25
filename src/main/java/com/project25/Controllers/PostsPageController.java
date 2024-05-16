@@ -4,9 +4,9 @@ import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.controls.Popover;
 import atlantafx.base.controls.Spacer;
 import com.project25.Components.Post;
-import com.project25.Components.User;
 import com.project25.Models.Model;
 import com.project25.Models.Styles;
+import com.project25.WindowSelection;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -57,9 +58,8 @@ public class PostsPageController implements Initializable {
         emojiPopover.setHeaderAlwaysVisible(false);
         emojiPopover.setDetachable(true);
 
-        Image profilePicture = new Image(String.valueOf(getClass().getResource("/Images/profile2.jpg")), 280, 280, true, false);
         ImagePattern pattern = new ImagePattern(
-                profilePicture
+                Model.getInstance().getCurrentUser().getProfilePicture()
         );
         profile_image.setFill(pattern);
 
@@ -70,8 +70,8 @@ public class PostsPageController implements Initializable {
             if (!status_fld.getText().isEmpty()) {
 
                 // Create new post
-                User tempNewUser = new User(0, "yousif", "yousif", "salah", "hey", profilePicture);
-                Post post = new Post(Model.getInstance().getAllPosts().size(), currentImage, status_fld.getText(), tempNewUser, LocalDate.now());
+
+                Post post = new Post(Model.getInstance().getAllPosts().size(), currentImage, status_fld.getText(), Model.getInstance().getCurrentUser(), LocalDate.now());
                 newPost(post, false);
                 status_fld.setText("");
                 currentImage = null;
@@ -111,19 +111,23 @@ public class PostsPageController implements Initializable {
         textField.setMaxWidth(1000);
 
         var dropdown = new MenuButton("", new FontIcon(Feather.MENU));
+        var logout_btn = new MenuItem("Log Out");
         dropdown.getItems().setAll(
                 new MenuItem("Theme 1"),
                 new MenuItem("Theme 2"),
-                new MenuItem("Log Out")
+                logout_btn
         );
+        logout_btn.setOnAction(e -> onLogout());
 
         var msg_btn = new Button("", new FontIcon(Feather.MESSAGE_SQUARE));
         var user_btn = new Button("", new FontIcon(Feather.USER));
         var img = new Image(String.valueOf(getClass().getResource("/Images/logo1.jpg")), 100, 100, true, false);
         var imgview = new ImageView(img);
+        imgview.setOnMouseClicked(e -> Model.getInstance().getViewFactory().windowSelectionProperty().set(WindowSelection.HOME));
+        user_btn.setOnMouseClicked(e -> Model.getInstance().getViewFactory().windowSelectionProperty().set(WindowSelection.PROFILE));
 
         toolbar.getChildren().addAll(
-                new ImageView(img),
+                imgview,
                 new Spacer(10),
                 textField,
                 msg_btn,
@@ -185,5 +189,15 @@ public class PostsPageController implements Initializable {
         for (Post post : Model.getInstance().getAllPosts()) {
             newPost(post, true);
         }
+    }
+
+    private void onLogout() {
+        // Get Stage and close
+        Stage stage = (Stage) newpost_btn.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeStage(stage);
+        // Show Login Window
+        Model.getInstance().getViewFactory().showLoginWindow();
+        // Set Client Login Flag False
+        Model.getInstance().setCurrentUser(null);
     }
 }

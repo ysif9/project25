@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="540.0" prefWidth="800.0" styleClass="border-pane-curve"
+            stylesheets="@../Styles/register_style.css" xmlns="http://javafx.com/javafx/21"
+            fx:controller="com.project25.Controllers.RegisterController">
+    <left>
+        <AnchorPane prefHeight="540.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="540.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Images/1715726129325.png"/>
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+    </left>
+    <right>
+        <AnchorPane prefHeight="540.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button id="register-link" fx:id="registerShifter" alignment="CENTER" contentDisplay="TEXT_ONLY"
+                        layoutX="233.0" layoutY="71.4" style="-fx-font-family: Helvitaca; -fx-font-weight: bold;"
+                        styleClass="login-link" text="Login" textAlignment="CENTER" textFill="#000500"
+                        AnchorPane.topAnchor="71.4">
+                    <font>
+                        <Font size="10.0"/>
+                    </font>
+                </Button>
+                <Text layoutX="94.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      style="-fx-font-family: Helvetica; -fx-font-weight: bold;" text="Let's get social!"
+                      AnchorPane.topAnchor="37.78515625">
+                    <font>
+                        <Font size="28.0"/>
+                    </font>
+                </Text>
+                <Text layoutX="114.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      style="-fx-font-family: Helvetica; -fx-font-weight: lighter;" text="Already have an account?"
+                      AnchorPane.topAnchor="77.208984375">
+                    <font>
+                        <Font size="10.0"/>
+                    </font>
+                </Text>
+                <Label layoutX="82.0" layoutY="145.0" styleClass="labels" text="Enter your email"/>
+                <TextField fx:id="registerEmailText" layoutX="80.0" layoutY="161.0" prefHeight="35.0" prefWidth="236.0"
+                           promptText="alphanumeric characters and .@-" style="-fx-font-family: Helvetica;"
+                           styleClass="rounded-text-field">
+                    <font>
+                        <Font size="11.0"/>
+                    </font>
+                </TextField>
+                <Label layoutX="84.0" layoutY="262.0" styleClass="labels" text="Create your password"/>
+                <PasswordField fx:id="registerPasswordText" layoutX="82.0" layoutY="277.0" prefHeight="35.0"
+                               prefWidth="236.0" promptText="Enter your password" style="-fx-font-family: Helvetica;"
+                               styleClass="rounded-text-field">
+                    <font>
+                        <Font size="11.0"/>
+                    </font>
+                </PasswordField>
+                <Button fx:id="signUpBtn" layoutX="84.0" layoutY="386.0" mnemonicParsing="false"
+                        onAction="#signUpBtnOnAction" prefHeight="35.0" prefWidth="231.0" styleClass="action-button"
+                        text="Sign Up!" textAlignment="CENTER"/>
+                <Label fx:id="errorLabel" alignment="CENTER" layoutX="82.0" layoutY="438.0" prefHeight="46.0"
+                       prefWidth="231.0" style="-fx-text-fill: red;" textAlignment="CENTER">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="10.0"/>
+                    </font>
+                </Label>
+                <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="231.0" layoutY="499.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../Images/gogi-logo-black.png"/>
+                    </image>
+                </ImageView>
+                <Label layoutX="84.0" layoutY="205.0" styleClass="labels" text="Enter your desired username"/>
+                <Label layoutX="84.0" layoutY="312.0" styleClass="labels" text="Re-enter the password"/>
+                <TextField fx:id="registerUsernameText" layoutX="82.0" layoutY="221.0" prefHeight="35.0"
+                           prefWidth="236.0" promptText="E.g. yournameE2" style="-fx-font-family: Helvetica;"
+                           styleClass="rounded-text-field">
+                    <font>
+                        <Font size="11.0"/>
+                    </font>
+                </TextField>
+                <PasswordField fx:id="registerPasswordText2" layoutX="82.0" layoutY="327.0" prefHeight="35.0"
+                               prefWidth="236.0" promptText="Enter your password" style="-fx-font-family: Helvetica;"
+                               styleClass="rounded-text-field">
+                    <font>
+                        <Font size="11.0"/>
+                    </font>
+                </PasswordField>
+                <Text layoutX="133.0" layoutY="517.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      style="-fx-font-family: Helvetica; -fx-font-weight: lighter;" text="© No rights reserved.">
+                    <font>
+                        <Font size="10.0"/>
+                    </font>
+                </Text>
+            </children>
+        </AnchorPane>
+    </right>
+</BorderPane>

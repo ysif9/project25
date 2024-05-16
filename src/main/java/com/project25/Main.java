@@ -14,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         Application.setUserAgentStylesheet(new CupertinoLight().getUserAgentStylesheet());
-        Model.getInstance().getViewFactory().showNewPost();
+        Model.getInstance().getViewFactory().showLoginWindow();
     }
 }
 

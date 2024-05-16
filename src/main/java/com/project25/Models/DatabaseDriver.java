@@ -1,7 +1,6 @@
 package com.project25.Models;
 
 import com.project25.Components.*;
-import com.project25.Exceptions.UsernameTakenException;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
@@ -24,11 +23,14 @@ public class DatabaseDriver {
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "Email VARCHAR(255) NOT NULL," +
             "Username VARCHAR(255) NOT NULL," +
-            "HashedPass VARCHAR(255) NOT NULL" +
+            "HashedPass VARCHAR(255) NOT NULL," +
+            "ProfilePicture BLOB" + // Assuming ProfilePicture is stored as a BLOB
             ")";
-    private static final String INSERT_USER_SQL = "INSERT INTO users (Email, Username, HashedPass) VALUES (?, ?, ?)";
-    private static final String CHECK_USERNAME_SQL = "SELECT Username FROM users WHERE Username = ?";
+    private static final String INSERT_USER_SQL = "INSERT INTO users (Email, Username, HashedPass, ProfilePicture) VALUES (?, ?, ?, ?)";
     private static final String SELECT_USER_SQL = "SELECT * FROM users WHERE Username = ? AND HashedPass = ?";
+
+    private static final String CHECK_USERNAME_SQL = "SELECT Username FROM users WHERE Username = ?";
+
     // Posts
     private static final String CREATE_POST_SQL = "CREATE TABLE IF NOT EXISTS posts (" +
             "ID INTEGER PRIMARY KEY," +
@@ -68,10 +70,6 @@ public class DatabaseDriver {
 
 
     private Connection connection; // Connection object for database connection
-    private String email; // User email
-    private String username; // Username
-    private String password; // Password
-
 
     // Constructor to establish database connection
     public DatabaseDriver() {
@@ -82,21 +80,6 @@ public class DatabaseDriver {
             e.printStackTrace();
         }
 
-    }
-
-    // Setter for email
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    // Setter for username
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    // Setter for password
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     // Method to create user table if it doesn't exist
@@ -110,18 +93,20 @@ public class DatabaseDriver {
         }
     }
 
-    // Method to import user data into the database
-    public void importUserData() throws SQLException {
-        addUser(); // Add user to the database
+    public User fetchUserData(String username, String password) throws SQLException, NoSuchAlgorithmException {
+        ResultSet resultSet = getUser(username, password);
+        if (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            // Assuming ProfilePicture is stored as a BLOB
+            Image profilePicture = byteArrayToImage(resultSet.getBytes("ProfilePicture"));
+            // You may want to adjust this to match your User constructor
+            return new User(id, username, profilePicture);
+        } else {
+            return null; // No user found
+        }
     }
 
-    public boolean fetchUserData() throws SQLException {
-        ResultSet resultSet = getUser();
-        return resultSet.isBeforeFirst();
-
-    }
-
-    private ResultSet getUser() throws SQLException {
+    private ResultSet getUser(String username, String password) throws SQLException, NoSuchAlgorithmException {
         PreparedStatement pstmt = connection.prepareStatement(SELECT_USER_SQL);
         pstmt.setString(1, username);
         pstmt.setString(2, hashPassword(password));
@@ -129,12 +114,13 @@ public class DatabaseDriver {
     }
 
     // Method to add user to the database
-    private void addUser() throws SQLException {
+    public void addUser(String username, String email, String password, Image profilePicture) throws SQLException, NoSuchAlgorithmException {
         String hashedPassword = hashPassword(password); // Hash the password before storing
         PreparedStatement pstmt = connection.prepareStatement(INSERT_USER_SQL);
         pstmt.setString(1, email); // Set email parameter
         pstmt.setString(2, username); // Set username parameter
         pstmt.setString(3, hashedPassword); // Set hashed password parameter
+        pstmt.setBytes(4, imageToByteArray(profilePicture));
         pstmt.executeUpdate(); // Execute SQL to insert user into the database
     }
 
@@ -148,13 +134,12 @@ public class DatabaseDriver {
     }
 
 
-    public void isUsernameTaken(String username) throws UsernameTakenException {
-        try (PreparedStatement pstmt = connection.prepareStatement(CHECK_USERNAME_SQL)) {
+    public boolean isUsernameTaken(String username) {
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(CHECK_USERNAME_SQL);
             pstmt.setString(1, username);
             try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    throw new UsernameTakenException("Username is taken, try again");
-                } // If there's a result, username is taken
+                return rs.next(); // If there's a result, username is taken
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error checking username: " + e.getMessage(), e);
@@ -162,9 +147,7 @@ public class DatabaseDriver {
     }
 
 
-
-    private String hashPassword(String password) {
-        try {
+    private String hashPassword(String password) throws NoSuchAlgorithmException {
             final MessageDigest digest = MessageDigest.getInstance("SHA-256");
             final byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
             final StringBuilder hexString = new StringBuilder();
@@ -174,9 +157,6 @@ public class DatabaseDriver {
                 hexString.append(hex);
             }
             return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error hashing password: " + e.getMessage(), e);
-        }
     }
 
     /*
@@ -363,8 +343,21 @@ public class DatabaseDriver {
 
 
     private User getUserByUsername(String username) {
-        // temporary until philo commit
-        Image profilePicture = new Image(String.valueOf(getClass().getResource("/Images/profile2.jpg")), 280, 280, true, false);
-        return new User(0, "yousif", "yousif", "salah", "hey", profilePicture);
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE Username = ?");
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            System.out.println("here");
+            if (rs.next()) {
+                System.out.println("nope");
+                int id = rs.getInt("id");
+                Image profilePicture = byteArrayToImage(rs.getBytes("ProfilePicture"));
+                // You may want to adjust this to match your User constructor
+                return new User(id, username, profilePicture);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

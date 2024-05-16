@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="1000.0" prefWidth="1500.0"
             style="-fx-background-color: transparent;" stylesheets="@../Styles/PostsPage.css"
             xmlns="http://javafx.com/javafx/21" fx:controller="com.project25.Controllers.PostsPageController">
@@ -74,21 +73,6 @@
     <left>
         <VBox maxWidth="251.0" minWidth="-Infinity" prefHeight="945.0" prefWidth="500.0" spacing="20.0"
               styleClass="side_container" HBox.hgrow="ALWAYS">
-            <children>
-                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                    <children>
-                        <Circle fill="DODGERBLUE" radius="37.0" stroke="BLACK" strokeType="INSIDE"/>
-                        <Label text="Ahmed Lotfy Lotfy">
-                            <font>
-                                <Font name="Segoe UI Semibold" size="17.0"/>
-                            </font>
-                        </Label>
-                    </children>
-                    <padding>
-                        <Insets left="10.0"/>
-                    </padding>
-                </HBox>
-            </children>
             <padding>
                 <Insets left="200.0" top="20.0"/>
             </padding>

@@ -1,0 +1,52 @@
+.login-link {
+    -fx-font-family: Helvetica, sans-serif;
+    -fx-font-size: 10px;
+    -fx-fill: #000500;
+    -fx-background-color: transparent;
+}
+
+.login-link .text:hover {
+    -fx-cursor: hand;
+    -fx-fill: #1D7874; /* Set initial text color */
+}
+
+.login-link:focused {
+    -fx-border-width: 0px;
+}
+
+.rounded-text-field {
+    -fx-background-color: #F7F8FA;
+    -fx-border-width: 0px; /* Adjust border width as needed */
+    -fx-border-radius: 80px; /* Adjust corner radius size */
+    -fx-background-radius: 80px;
+}
+
+.rounded-text-field:focused {
+    -fx-border-color: black;
+}
+
+.labels {
+    -fx-font-family: Helvetica, sans-serif; /* Fallback for Helvetica */
+    -fx-font-size: 10px;
+    -fx-fill: #000500; /* Text color */
+    -fx-font-weight: bold;
+}
+
+.white-bg {
+    -fx-background-color: white;
+}
+
+.action-button {
+    -fx-font-family: Helvetica, sans-serif;
+    -fx-background-color: #000500;
+    -fx-border-width: 0px; /* Adjust border width as needed */
+    -fx-border-radius: 80px; /* Adjust corner radius size */
+    -fx-background-radius: 80px;
+    -fx-text-fill: white;
+    -fx-font-weight: 700; /* Semi-bold */
+    -fx-font-size: 10px; /* Width of the button */
+}
+
+.border-pane-curve {
+    -fx-border-radius: 80px;
+}
