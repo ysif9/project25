@@ -35,6 +35,7 @@ public class LoginController {
 
     public void initialize() {
         registerShifter.setOnAction(e -> registerShiftClicked());
+        errorLabel.setWrapText(true);
     }
 
     public void signInBtnOnAction() {

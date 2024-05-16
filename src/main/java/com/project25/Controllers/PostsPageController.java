@@ -139,7 +139,7 @@ public class PostsPageController implements Initializable {
 
     private void newPost(Post post, boolean loading) {
         // init new Post Cell
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/PostCell.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/PostCell.fxml"));
         PostCellController postCellController = new PostCellController(post);
         loader.setController(postCellController);
         try {

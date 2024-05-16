@@ -17,10 +17,10 @@ public class CommentCellController implements Initializable {
     comment_text_lbl.setText("");
     comment_text_lbl.setWrapText(true);
     }
-    public void newComment(Comment comment, String content){
+    public void newComment(Comment comment){
         if(comment.getOwner() != null){
         username_lbl.setText(comment.getOwner().getUsername());}
-        comment_text_lbl.setText(content);
+        comment_text_lbl.setText(comment.getContent());
 
     }
 

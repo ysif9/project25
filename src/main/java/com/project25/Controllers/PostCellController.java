@@ -2,13 +2,13 @@ package com.project25.Controllers;
 
 import atlantafx.base.util.Animations;
 import com.project25.Components.Comment;
+import com.project25.Components.Dislike;
 import com.project25.Components.Like;
 import com.project25.Components.Post;
+import com.project25.Models.Model;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -49,11 +49,10 @@ public class PostCellController implements Initializable {
     BooleanProperty likeClicked =new SimpleBooleanProperty(false);
     BooleanProperty dislikeClicked =new SimpleBooleanProperty(false);
     BooleanProperty commentClicked =new SimpleBooleanProperty(false);
-    IntegerProperty likeId = new SimpleIntegerProperty(1);
     //Objects
     Post currentPost;
-
-
+    Dislike dislike;
+    Like like;
     public PostCellController(Post post) {
         currentPost = post;
     }
@@ -62,7 +61,11 @@ public class PostCellController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         //post initialization
-
+        try {
+            commentsLoading();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         post_text_lbl.setWrapText(true);
         post_cell_container.setPrefHeight(710);
         ImagePattern pattern = new ImagePattern(
@@ -75,7 +78,7 @@ public class PostCellController implements Initializable {
         like_count_lbl.setText(String.valueOf(currentPost.getLikes().size()));
         dislike_count_lbl.setText(String.valueOf(currentPost.getDislikes().size()));
         comment_count_lbl.setText(String.valueOf(currentPost.getComments().size()));
-        //comment button initialization 34an youseif needy
+
         FontAwesomeIconView comment_ico = new FontAwesomeIconView();
         comment_ico.setGlyphName("COMMENT");
         comment_ico.setSize("30");
@@ -94,25 +97,37 @@ public class PostCellController implements Initializable {
         });
     }
 
+    private void commentsLoading() throws IOException {
+        for(Comment comment:Model.getInstance().getAllPostsComments(currentPost)){
+            loadComment(comment);
+        }
+    }
+
+    private void loadComment(Comment comment) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/CommentCell.fxml"));
+        CommentCellController cellController = new CommentCellController();
+        loader.setController(cellController);
+        VBox commentCell = loader.load();
+        cellController.newComment(comment);
+
+        comment_section_container.getChildren().add(commentCell);
+    }
+
     private void createNewComment() throws IOException {
         //move to model
         if(currentPost.getAuthor() != null) {
-            if(!comment_input_fld.getText().equals("")){
-            Comment comment = new Comment(1, LocalDate.now(), currentPost.getAuthor(), comment_input_fld.getText());
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/CommentCell.fxml"));
-            CommentCellController cellController = new CommentCellController();
-            loader.setController(cellController);
-            VBox commentCell = loader.load();
-            cellController.newComment(comment , comment_input_fld.getText());
-            comment_section_container.getChildren().add(commentCell);
-            comment_input_fld.clear();}
+            if(!comment_input_fld.getText().isEmpty()){
+            Comment comment = new Comment(Model.getInstance().getAllComments().size(), LocalDate.now(), currentPost.getAuthor(), comment_input_fld.getText());
+                comment.setParentPost(currentPost);
+                Model.getInstance().addComment(comment);
+                loadComment(comment);
+                comment_input_fld.clear();}
             else{
                 var animation = Animations.shakeX(comment_submit_btn, 0.5);
                 animation.playFromStart();
             }
         }
-
+        comment_count_lbl.setText(String.valueOf(Model.getInstance().getAllComments().size()));
     }
 
 
@@ -136,22 +151,20 @@ public class PostCellController implements Initializable {
         var likePulse =  Animations.pulse(like_btn, 2);
         likePulse.setRate(2.5);
         likeClicked.set(!likeClicked.getValue());
-        Like like =new Like(likeId.getValue(), LocalDate.now(), null);
+         like =new Like(currentPost.getLikes().size(), LocalDate.now(), Model.getInstance().getCurrentUser());
         if(likeClicked.getValue()){
             this.like_btn.setGlyphName("HEART");
             this.like_btn.setFill(new Color(0.85, 0.06, 0.27, 1));
             likePulse.playFromStart();
-            //addLike method in model
+            currentPost.removeLike(like);
         currentPost.addLike(like);
-        likeId.setValue(likeId.getValue() + 1);
-
         }
         else {
             this.like_btn.setGlyphName("HEART_ALT");
             this.like_btn.setFill(new Color(0, 0, 0, 1));
             //removeLike method in model
             currentPost.removeLike(like);
-            likeId.setValue(likeId.getValue() - 1);
+
         }
         like_count_lbl.setText(String.valueOf(currentPost.getLikes().size()));
     }
@@ -162,14 +175,16 @@ public class PostCellController implements Initializable {
 
         if(dislikeClicked.getValue()){
             dislike_btn.setFill(new Color(0.12, 0.46, 0.9, 1));
-
+            dislike = new Dislike(currentPost.getDislikes().size(),LocalDate.now(),Model.getInstance().getCurrentUser());
             //addDislike method in model
+            currentPost.addDisLike(dislike);
         }
         else {
             this.dislike_btn.setFill(new Color(0, 0, 0, 1));
             //removeDislike method in model
+            currentPost.removeDisLike(dislike);
         }
-
+dislike_count_lbl.setText(String.valueOf(currentPost.getDislikes().size()));
     }
 }
 
