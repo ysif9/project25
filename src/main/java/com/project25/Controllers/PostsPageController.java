@@ -199,5 +199,6 @@ public class PostsPageController implements Initializable {
         Model.getInstance().getViewFactory().showLoginWindow();
         // Set Client Login Flag False
         Model.getInstance().setCurrentUser(null);
+        Model.getInstance().getAllPosts().clear();
     }
 }
