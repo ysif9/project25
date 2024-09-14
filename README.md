@@ -1,3 +1,8 @@
+<p align="center">
+<img src="https://github.com/ysif9/project25/blob/master/src/main/resources/Images/0haqzWQ%20-%20Imgur.png" width="700" alt="Register"/><br/>
+<img src="https://github.com/ysif9/project25/blob/master/src/main/resources/Images/Dashboard.png" width="700" alt="Tasks"/><br/>
+</p>
+
 ## 1. Compilation
 
 Using IntelliJ IDEA:
